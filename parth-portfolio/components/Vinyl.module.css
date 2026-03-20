@@ -1,0 +1,106 @@
+.vinylSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.vinylLabel {
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-family: var(--font-jetbrains), monospace;
+}
+
+.vinylRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.vinylOuter {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.vinylDisk {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 50% 50%, transparent 0%, transparent 17%, rgba(255,255,255,0.015) 17.5%, transparent 18%),
+    repeating-radial-gradient(
+      circle at 50% 50%,
+      #111 0px, #111 1px,
+      #1d1d1d 1px, #1d1d1d 2.5px,
+      #151515 2.5px, #151515 3.5px,
+      #1a1a1a 3.5px, #1a1a1a 5px
+    );
+  animation: spin 5s linear infinite;
+  position: relative;
+}
+
+.vinylCenter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #2a1f0e, #3d2e12, #c9a84c, #3d2e12, #2a1f0e, #c9a84c, #2a1f0e);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+}
+
+.vinylCenter::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #0b0b0b;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.needle {
+  position: absolute;
+  top: -6px;
+  right: -14px;
+  width: 40px;
+  height: 44px;
+  transform-origin: 85% 12%;
+  transform: rotate(24deg);
+  pointer-events: none;
+}
+
+.songMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.songTitle {
+  font-family: var(--font-cormorant), serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.songArtist {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+  text-transform: uppercase;
+  font-family: var(--font-jetbrains), monospace;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
