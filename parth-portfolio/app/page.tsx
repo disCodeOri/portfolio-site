@@ -82,22 +82,14 @@ export default function Home() {
 
           {/* Projects grid */}
           <section className={styles.projectsPanel}>
-          {projects.map((p) => {
-            const isLink = !!p.href;
-            const Tag = isLink ? "a" : "div";
-            const tagProps = isLink
-              ? {
-                  href: p.href as string,
-                  target: p.href!.startsWith("http") ? "_blank" : undefined,
-                  rel: p.href!.startsWith("http") ? "noopener noreferrer" : undefined,
-                }
-              : {};
-
-            return (
-              <Tag
+          {projects.map((p) =>
+            p.href ? (
+              <a
                 key={p.index}
-                className={`${styles.projectCard} ${!isLink ? styles.projectCardStatic : ""}`}
-                {...(tagProps as React.AnchorHTMLAttributes<HTMLAnchorElement>)}
+                className={styles.projectCard}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <div>
                   <div className={styles.projectTop}>
@@ -111,13 +103,27 @@ export default function Home() {
                   <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
                     {p.status}
                   </span>
-                  {p.linkLabel && (
-                    <span className={styles.projectLink}>{p.linkLabel}</span>
-                  )}
+                  {p.linkLabel && <span className={styles.projectLink}>{p.linkLabel}</span>}
                 </div>
-              </Tag>
-            );
-          })}
+              </a>
+            ) : (
+              <div key={p.index} className={`${styles.projectCard} ${styles.projectCardStatic}`}>
+                <div>
+                  <div className={styles.projectTop}>
+                    <span className={styles.projectIndex}>{p.index}</span>
+                    <span className={styles.projectTag}>{p.tag}</span>
+                  </div>
+                  <h2 className={styles.projectName}>{p.name}</h2>
+                  <p className={styles.projectDesc}>{p.desc}</p>
+                </div>
+                <div className={styles.projectFooter}>
+                  <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
+                    {p.status}
+                  </span>
+                </div>
+              </div>
+            )
+          )}
           </section>
 
         </main>
