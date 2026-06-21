@@ -1,54 +1,70 @@
 import Vinyl from "@/components/Vinyl";
 import styles from "./page.module.css";
 
-const projects = [
+const highlights = [
   {
     index: "01",
-    tag: "Research",
-    name: "BITS Pilani Diagnostic Software",
-    desc: "Point-of-Care diagnostic application built for a Raspberry Pi 5. Handles automated well detection, real-time intensity plotting, and multi-format data export for biomedical research labs.",
-    status: "Patent Pending",
-    statusLive: false,
-    href: null,
-    linkLabel: null,
+    tag: "Triathlon",
+    name: "International & National Racing",
+    desc: "International racer in Nepal with the 2nd-fastest swim in the Indian contingent, competing at age 16 against athletes over 25 and on a bike purchased just two days before the race. Also raced IRONMAN 5150 Triathlon Chennai 2026, finishing 23rd in the 18-24 age category despite the run-bike-run format removing my strongest suit: swimming.",
+    status: "International / 5150 / Nationals",
   },
   {
     index: "02",
-    tag: "Product",
-    name: "OakMBac",
-    desc: "In-house alternative to ManageBac, the school management platform used across the Nord Anglia international school network. Leading a team of four developers from architecture to deployment.",
-    status: "In Development",
-    statusLive: false,
-    href: null,
-    linkLabel: null,
+    tag: "Triathlon",
+    name: "Medals & Adversity",
+    desc: "Telangana CM Cup silver medalist. Competed at the 37th National Games in Goa, where a jellyfish sting prevented me from completing the race.",
+    status: "Silver Medalist",
   },
   {
     index: "03",
-    tag: "Full Stack",
-    name: "Zariya",
-    desc: "Full-stack e-commerce platform for a sustainable fashion brand. Handles payments, order management, and dynamic inventory. Built solo and deployed to production.",
-    status: "Live",
-    statusLive: true,
-    href: "https://zariya-one.vercel.app",
-    linkLabel: "Visit Site →",
+    tag: "Fundraising",
+    name: "Habitat for Humanity Fundraiser",
+    desc: "Raised INR 31,000 independently through door-to-door outreach, the highest amount raised by anyone in the program. The second-highest fundraiser raised INR 17,000.",
+    status: "Top Fundraiser",
   },
   {
     index: "04",
-    tag: "Application",
-    name: "IBDP SIMS",
-    desc: "Student Information Management System built as an IBDP Computer Science Internal Assessment. Assessed at grade 7 equivalent. Scope described by my teacher as requiring four to five developers.",
-    status: "IBDP CS IA — Grade 7",
-    statusLive: false,
-    href: "https://github.com/disCodeOri/IBDP-SIMS",
-    linkLabel: "View on GitHub →",
+    tag: "Fellowship",
+    name: "Yale Entrepreneurial Society",
+    desc: "Completed the Yale Entrepreneurial Society High School Fellowship on a full-ride scholarship.",
+    status: "Full-Ride Scholar",
+  },
+  {
+    index: "05",
+    tag: "Readiness",
+    name: "Callido College Readiness Skills",
+    desc: "Placed in the top 25 percentile globally in the Callido college readiness skills program, with faculty sign-off from Brown University.",
+    status: "Top 25% Globally",
+  },
+  {
+    index: "06",
+    tag: "Research Dev",
+    name: "BITS Pilani Research Software",
+    desc: "Software development and research intern for a postdoctoral researcher, building a custom application that will integrate into a device designed to significantly improve portability and reduce the cost of current industry solutions.",
+    status: "Research Internship",
+  },
+  {
+    index: "07",
+    tag: "Analytics + AI",
+    name: "BITSoM Certificate Program",
+    desc: "Completed the BITSoM certificate program in Business Analytics and Agentic AI.",
+    status: "Certificate Program",
+  },
+  {
+    index: "08",
+    tag: "Client Work",
+    name: "Custom Software Services",
+    desc: "Providing custom software services to clients. Currently building a rent management system for a property owner managing 27 properties across multiple locations, solving workflow problems that generalized platforms do not cater to.",
+    status: "Client Build",
   },
 ];
 
 export default function Home() {
   return (
     <>
-      <a className={styles.skipLink} href="#projects">
-        Skip to projects
+      <a className={styles.skipLink} href="#highlights">
+        Skip to highlights
       </a>
       <div className={styles.grain} aria-hidden="true" />
 
@@ -72,7 +88,7 @@ export default function Home() {
               <div className={styles.statusBlock}>
                 <p className={styles.statusLabel}>Currently</p>
                 <p className={styles.statusItem}><span>01</span>BITS Pilani — Research Dev</p>
-                <p className={styles.statusItem}><span>02</span>OakMBac — Team Lead</p>
+                <p className={styles.statusItem}><span>02</span>Client Software — Rent Management</p>
                 <p className={styles.statusItem}><span>03</span>Triathlon Training</p>
               </div>
             </div>
@@ -83,53 +99,27 @@ export default function Home() {
             </div>
           </aside>
 
-          {/* Projects grid */}
-          <section className={styles.projectsPanel} id="projects" aria-labelledby="projects-heading">
-            <h2 className={styles.visuallyHidden} id="projects-heading">
-              Featured projects
-            </h2>
-            {projects.map((p) =>
-              p.href ? (
-                <a
-                  key={p.index}
-                  className={styles.projectCard}
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <div>
-                    <div className={styles.projectTop}>
-                      <span className={styles.projectIndex}>{p.index}</span>
-                      <span className={styles.projectTag}>{p.tag}</span>
-                    </div>
-                    <h2 className={styles.projectName}>{p.name}</h2>
-                    <p className={styles.projectDesc}>{p.desc}</p>
+          {/* Highlights grid */}
+          <section className={styles.projectsPanel} id="highlights" aria-labelledby="highlights-heading">
+            <div className={styles.sectionIntro}>
+              <p className={styles.eyebrow}>Selected work, sport, and leadership</p>
+              <h2 id="highlights-heading">Highlights</h2>
+            </div>
+            {highlights.map((item) => (
+              <article key={item.index} className={`${styles.projectCard} ${styles.projectCardStatic}`}>
+                <div>
+                  <div className={styles.projectTop}>
+                    <span className={styles.projectIndex}>{item.index}</span>
+                    <span className={styles.projectTag}>{item.tag}</span>
                   </div>
-                  <div className={styles.projectFooter}>
-                    <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
-                      {p.status}
-                    </span>
-                    {p.linkLabel && <span className={styles.projectLink}>{p.linkLabel}</span>}
-                  </div>
-                </a>
-              ) : (
-                <article key={p.index} className={`${styles.projectCard} ${styles.projectCardStatic}`}>
-                  <div>
-                    <div className={styles.projectTop}>
-                      <span className={styles.projectIndex}>{p.index}</span>
-                      <span className={styles.projectTag}>{p.tag}</span>
-                    </div>
-                    <h2 className={styles.projectName}>{p.name}</h2>
-                    <p className={styles.projectDesc}>{p.desc}</p>
-                  </div>
-                  <div className={styles.projectFooter}>
-                    <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
-                      {p.status}
-                    </span>
-                  </div>
-                </article>
-              )
-            )}
+                  <h3 className={styles.projectName}>{item.name}</h3>
+                  <p className={styles.projectDesc}>{item.desc}</p>
+                </div>
+                <div className={styles.projectFooter}>
+                  <span className={styles.projectStatus}>{item.status}</span>
+                </div>
+              </article>
+            ))}
           </section>
 
         </main>

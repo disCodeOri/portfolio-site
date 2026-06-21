@@ -165,11 +165,35 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
+  overflow-y: auto;
+  align-content: start;
   opacity: 0;
   animation: fadeUp 0.6s ease forwards;
   animation-delay: 0.3s;
   min-width: 0;
   position: relative;
+}
+
+.sectionIntro {
+  grid-column: 1 / -1;
+  padding: 4px 0 8px;
+  font-family: var(--font-jetbrains), monospace;
+}
+
+.sectionIntro h2 {
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--text);
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .projectCard {
@@ -371,6 +395,7 @@
     grid-auto-rows: auto;
     padding: 20px;
     gap: 12px;
+    overflow-y: visible;
   }
 
   .name {
