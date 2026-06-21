@@ -17,15 +17,53 @@
 
 html,
 body {
-  height: 100%;
-  overflow: hidden;
+  /* Prefer legacy 100vh first, then modern 100svh as a fallback order so older browsers pick 100vh and modern pick 100svh */
+  min-height: 100vh;
+  min-height: 100svh;
+  /* Keep height fallback order consistent for cases where scripts or components rely on height */
+  height: 100vh;
+  height: 100svh;
+
+  /* Prevent horizontal overflow across devices */
+  overflow-x: hidden;
+
+  /* Allow natural vertical scrolling by default (mobile-first). Desktop will re-lock overflow if desired via media query. */
+  overflow-y: auto;
+
   background: var(--bg);
   color: var(--text);
+
+  -webkit-text-size-adjust: 100%; /* avoid font inflation on mobile */
 }
 
-@media (max-width: 900px) {
+/* On larger screens keep the app feeling app-like and limit body scroll if intended */
+@media (min-width: 901px) {
   html,
   body {
-    overflow: auto;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden; /* desktop app-like experience kept as before */
+  }
+}
+
+/* Improve touch behavior for interactive elements */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Better focus outlines for accessibility */
+:focus {
+  outline: 2px solid rgba(201,168,76,0.28);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
 }
