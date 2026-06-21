@@ -146,148 +146,374 @@
   font-family: var(--font-jetbrains), monospace;
 }
 
-.projectCardStatic {
-  cursor: default;
-}
 
-.projectCardStatic:hover {
-  background: var(--surface);
-  border-color: var(--border);
-}
-
-.projectCardStatic::before {
-  display: none;
-}
-
-/* Projects grid */
-.projectsPanel {
+/* Interactive highlights experience */
+.experiencePanel {
   padding: 32px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
   opacity: 0;
   animation: fadeUp 0.6s ease forwards;
   animation-delay: 0.3s;
   min-width: 0;
-  position: relative;
-}
-
-.projectCard {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  text-decoration: none;
-  transition: background 0.2s, border-color 0.2s;
+  min-height: 0;
   position: relative;
   overflow: hidden;
-  font-family: var(--font-jetbrains), monospace;
-  min-width: 0;
 }
 
-.projectCard::before {
+.panelHeader {
+  position: relative;
+  z-index: 3;
+  font-family: var(--font-jetbrains), monospace;
+  pointer-events: none;
+}
+
+.panelHeader h2 {
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(34px, 5vw, 58px);
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(240, 236, 227, 0.88);
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  color: var(--accent);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.pathStage {
+  position: absolute;
+  inset: 0;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.pathStage::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 2px;
-  height: 0;
-  background: var(--accent);
-  transition: height 0.3s ease;
+  inset: 8% 4% 6% 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 45% 45%, rgba(201, 168, 76, 0.12), transparent 22%),
+    radial-gradient(circle at 76% 52%, rgba(201, 168, 76, 0.08), transparent 18%);
+  filter: blur(28px);
+  opacity: 0.7;
 }
 
-.projectCard:hover {
-  background: var(--surface-hover);
-  border-color: var(--border-hover);
+.fluidPath {
+  position: absolute;
+  inset: 2% -2% 0 0;
+  z-index: 1;
+  width: 104%;
+  height: 96%;
+  overflow: visible;
+  opacity: 0.72;
+  animation: waterDrift 18s ease-in-out infinite alternate;
 }
 
-.projectCard:hover::before {
-  height: 100%;
+.stagePaused .fluidPath,
+.stagePaused .categoryNode {
+  animation-duration: 40s;
 }
 
-.projectTop {
+.pathLine {
+  fill: none;
+  stroke: rgba(201, 168, 76, 0.42);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.08));
+  stroke-dasharray: 1450;
+  stroke-dashoffset: 0;
+  animation: lineBreath 22s ease-in-out infinite alternate;
+}
+
+.pathLine:nth-child(2) {
+  stroke: rgba(201, 168, 76, 0.34);
+  animation-delay: -4s;
+}
+
+.pathLine:nth-child(3) {
+  stroke: rgba(201, 168, 76, 0.28);
+  animation-delay: -8s;
+}
+
+.pathLine:nth-child(4) {
+  stroke: rgba(201, 168, 76, 0.23);
+  animation-delay: -12s;
+}
+
+.pathLine:nth-child(5) {
+  stroke: rgba(201, 168, 76, 0.18);
+  animation-delay: -16s;
+}
+
+.categoryNodes {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+}
+
+.categoryNode {
+  position: absolute;
+  width: min(260px, 24vw);
+  padding: 14px 16px 13px;
+  border: 1px solid rgba(201, 168, 76, 0.24);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.88), rgba(10, 10, 10, 0.74));
+  color: var(--text);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px 10px;
+  text-align: left;
+  font-family: var(--font-jetbrains), monospace;
+  transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+  animation: nodeFloat 8s ease-in-out infinite alternate;
+}
+
+.categoryNode:hover,
+.categoryNodeActive {
+  border-color: rgba(201, 168, 76, 0.75);
+  background: linear-gradient(135deg, rgba(27, 25, 18, 0.94), rgba(9, 9, 9, 0.84));
+  transform: translateY(-3px) scale(1.02);
+}
+
+.categoryNodeActive {
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.18), 0 22px 60px rgba(0, 0, 0, 0.34), 0 0 35px rgba(201, 168, 76, 0.12);
+}
+
+.nodeAthletics {
+  top: 27%;
+  left: 12%;
+}
+
+.nodeTech {
+  top: 21%;
+  right: 8%;
+  animation-delay: -2s;
+}
+
+.nodeVenture {
+  right: 16%;
+  bottom: 19%;
+  animation-delay: -4s;
+}
+
+.nodeImpact {
+  left: 16%;
+  bottom: 14%;
+  animation-delay: -6s;
+}
+
+.nodeIndex {
+  color: var(--accent);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  grid-row: 1 / span 3;
+  padding-top: 3px;
+}
+
+.nodeTitle {
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(18px, 2vw, 24px);
+  line-height: 1;
+}
+
+.nodeSummary {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.nodeMeta {
+  color: var(--accent);
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.stageHint {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: min(360px, calc(100% - 80px));
+  padding: 18px 20px;
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 999px;
+  background: rgba(8, 8, 8, 0.62);
+  backdrop-filter: blur(8px);
+  color: var(--muted);
+  font-family: var(--font-jetbrains), monospace;
+  text-align: center;
+}
+
+.stageHint span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--accent);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.stageHint p {
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.detailPanel {
+  position: absolute;
+  z-index: 5;
+  top: 50%;
+  left: 50%;
+  width: min(620px, calc(100% - 96px));
+  max-height: min(560px, calc(100% - 160px));
+  transform: translate(-50%, -45%);
+  padding: 22px;
+  border: 1px solid rgba(201, 168, 76, 0.36);
+  border-radius: 4px;
+  background: linear-gradient(145deg, rgba(7, 7, 7, 0.94), rgba(16, 16, 16, 0.88));
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  font-family: var(--font-jetbrains), monospace;
+  overflow: auto;
+}
+
+.detailPanel::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+  border: 1px solid rgba(240, 236, 227, 0.08);
+  border-radius: 2px;
+}
+
+.detailHeader {
+  position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 12px;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(240, 236, 227, 0.1);
 }
 
-.projectIndex {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--muted);
-  text-transform: uppercase;
-}
-
-.projectTag {
-  font-size: 9px;
-  letter-spacing: 0.15em;
+.detailBreadcrumb,
+.detailClose {
   color: var(--accent);
+  font-size: 9px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  padding: 3px 8px;
-  border: 1px solid rgba(201, 168, 76, 0.3);
-  border-radius: 1px;
 }
 
-.projectName {
+.detailHeader h3 {
+  margin: 9px 0 8px;
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(20px, 4vw, 24px);
+  font-size: clamp(30px, 5vw, 44px);
+  font-weight: 400;
+  line-height: 0.95;
+}
+
+.detailHeader p:last-child {
+  max-width: 430px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.detailClose {
+  white-space: nowrap;
+  padding: 7px 9px;
+  border: 1px solid rgba(201, 168, 76, 0.26);
+  border-radius: 999px;
+  background: rgba(201, 168, 76, 0.04);
+  color: var(--muted);
+  cursor: pointer;
+  font-family: var(--font-jetbrains), monospace;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+}
+
+.detailClose:hover {
+  border-color: rgba(201, 168, 76, 0.7);
+  color: var(--text);
+  background: rgba(201, 168, 76, 0.08);
+}
+
+.detailList {
+  position: relative;
+  list-style: none;
+}
+
+.detailItem {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 10px;
+  padding: 18px 0;
+  border-bottom: 1px solid rgba(240, 236, 227, 0.08);
+}
+
+.detailItem:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.detailIndex {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  padding-top: 5px;
+}
+
+.detailItem h4 {
+  font-family: var(--font-cormorant), serif;
+  font-size: clamp(19px, 3vw, 25px);
   font-weight: 400;
   line-height: 1.1;
-  color: var(--text);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
-.projectDesc {
-  font-size: clamp(10px, 1.8vw, 11px);
-  font-weight: 300;
-  line-height: 1.6;
+.detailItem p {
   color: var(--muted);
-  flex: 1;
-  margin-bottom: 16px;
-  min-height: 0;
+  font-size: 11px;
+  line-height: 1.55;
+  margin-bottom: 10px;
 }
 
-.projectFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.projectStatus {
-  font-size: 9px;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.projectStatus.live {
-  color: #7fca91;
-}
-
-.projectLink {
-  font-size: 9px;
-  letter-spacing: 0.1em;
+.detailItem span:last-child {
   color: var(--accent);
+  font-size: 8px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  opacity: 0;
-  transition: opacity 0.2s;
 }
 
-.projectCard:hover .projectLink {
-  opacity: 1;
-}
-
-/* Make hover-only info visible on touch devices */
-@media (hover: none) {
-  .projectLink {
-    opacity: 1 !important;
+@keyframes waterDrift {
+  from {
+    transform: translate3d(-12px, 8px, 0) scale(1.01) rotate(-0.4deg);
   }
-  .projectCard::before {
-    height: 100% !important;
+  to {
+    transform: translate3d(16px, -10px, 0) scale(1.035) rotate(0.45deg);
+  }
+}
+
+@keyframes lineBreath {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -90;
+  }
+}
+
+@keyframes nodeFloat {
+  from {
+    translate: 0 -4px;
+  }
+  to {
+    translate: 0 6px;
   }
 }
 
@@ -366,11 +592,67 @@
     padding: 28px 20px;
   }
 
-  .projectsPanel {
-    grid-template-columns: 1fr;
-    grid-auto-rows: auto;
-    padding: 20px;
+  .experiencePanel {
+    min-height: 860px;
+    padding: 22px 20px;
+    overflow: visible;
+  }
+
+  .pathStage {
+    position: relative;
+    min-height: 760px;
+    margin-top: 18px;
+    overflow: visible;
+  }
+
+  .fluidPath {
+    inset: 0 -34% auto -34%;
+    width: 168%;
+    height: 420px;
+    opacity: 0.46;
+  }
+
+  .categoryNodes {
+    position: relative;
+    z-index: 5;
+    display: grid;
     gap: 12px;
+    padding-top: 10px;
+  }
+
+  .categoryNode,
+  .nodeAthletics,
+  .nodeTech,
+  .nodeVenture,
+  .nodeImpact {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    border-radius: 2px;
+    animation: none;
+  }
+
+  .stageHint {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    transform: none;
+    border-radius: 2px;
+    margin-top: 18px;
+  }
+
+  .detailPanel {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    max-height: none;
+    transform: none;
+    margin-top: 18px;
   }
 
   .name {
@@ -393,21 +675,21 @@
     padding: 20px 16px;
   }
 
-  .projectsPanel {
-    padding: 16px;
-    gap: 12px;
+  .experiencePanel {
+    padding: 18px 16px;
   }
 
-  .projectCard {
-    padding: 16px;
+  .pathStage {
+    min-height: 790px;
   }
 
-  .projectName {
-    font-size: clamp(18px, 5.5vw, 22px);
+  .detailPanel {
+    padding: 18px;
   }
 
-  .projectDesc {
-    font-size: clamp(10px, 2.2vw, 11px);
+  .detailHeader {
+    flex-direction: column;
+    gap: 8px;
   }
 }
 
@@ -416,31 +698,32 @@
     padding: 16px 12px;
   }
 
-  .projectsPanel {
-    padding: 12px;
-    gap: 10px;
+  .experiencePanel {
+    padding: 16px 12px;
   }
 
-  .projectCard {
-    padding: 12px;
+  .detailItem {
+    grid-template-columns: 1fr;
   }
 }
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .identity,
-  .projectsPanel,
+  .experiencePanel,
   .footer {
     animation: none !important;
     opacity: 1;
     transform: none;
   }
 
-  .projectCard,
-  .projectCard::before,
-  .projectLink,
+  .categoryNode,
+  .fluidPath,
+  .pathLine,
+  .detailClose,
   .footerNav a,
   .grain {
     transition: none !important;
+    animation: none !important;
   }
 }
