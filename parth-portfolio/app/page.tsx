@@ -11,7 +11,7 @@ const categories = [
     title: "Athletics",
     summary: "International, national, and state-level triathlon achievements.",
     meta: "8 details",
-    position: styles.nodeAthletics,
+    distance: styles.nodeStartAthletics,
     items: [
       {
         title: "International Race in Nepal",
@@ -41,7 +41,7 @@ const categories = [
     title: "Technology & Research",
     summary: "Research software and custom client systems for niche workflows.",
     meta: "5 details",
-    position: styles.nodeTech,
+    distance: styles.nodeStartTech,
     items: [
       {
         title: "BITS Pilani Research Software",
@@ -71,7 +71,7 @@ const categories = [
     title: "Entrepreneurship & Business",
     summary: "Fellowships, analytics, and agentic AI programs.",
     meta: "2 details",
-    position: styles.nodeVenture,
+    distance: styles.nodeStartVenture,
     items: [
       {
         title: "Yale Entrepreneurial Society",
@@ -91,7 +91,7 @@ const categories = [
     title: "Leadership, Impact & Recognition",
     summary: "Fundraising, readiness recognition, and external validation.",
     meta: "5 details",
-    position: styles.nodeImpact,
+    distance: styles.nodeStartImpact,
     items: [
       {
         title: "Habitat for Humanity Fundraiser",
@@ -166,12 +166,7 @@ export default function Home() {
             </div>
           </aside>
 
-          <section className={styles.experiencePanel} id="highlights" aria-labelledby="highlights-heading">
-            <div className={styles.panelHeader}>
-              <p className={styles.eyebrow}>Selected work, sport, and leadership</p>
-              <h2 id="highlights-heading">Highlights</h2>
-            </div>
-
+          <section className={styles.experiencePanel} id="highlights" aria-label="Interactive highlights">
             <div className={`${styles.pathStage} ${isHovering ? styles.stagePaused : ""}`}>
               <FluidPath />
 
@@ -181,19 +176,15 @@ export default function Home() {
                     key={category.id}
                     category={category}
                     selected={category.id === selectedCategory?.id}
+                    expanded={category.id === selectedCategory?.id}
                     onSelect={() => setSelectedId(category.id)}
                     onHoverChange={setIsHovering}
                   />
                 ))}
               </div>
 
-              {selectedCategory ? (
+              {selectedCategory && (
                 <DetailPanel category={selectedCategory} onClose={() => setSelectedId(null)} />
-              ) : (
-                <div className={styles.stageHint}>
-                  <span>Choose a category</span>
-                  <p>Follow the gold path to open a focused achievement dossier.</p>
-                </div>
               )}
             </div>
           </section>
@@ -218,17 +209,19 @@ export default function Home() {
 function CategoryNode({
   category,
   selected,
+  expanded,
   onSelect,
   onHoverChange,
 }: {
   category: Category;
   selected: boolean;
+  expanded: boolean;
   onSelect: () => void;
   onHoverChange: (hovering: boolean) => void;
 }) {
   return (
     <button
-      className={`${styles.categoryNode} ${category.position} ${selected ? styles.categoryNodeActive : ""}`}
+      className={`${styles.categoryNode} ${category.distance} ${selected ? styles.categoryNodeActive : ""} ${expanded ? styles.categoryNodeExpanded : ""}`}
       type="button"
       onClick={onSelect}
       onMouseEnter={() => onHoverChange(true)}
@@ -248,7 +241,7 @@ function DetailPanel({ category, onClose }: { category: Category; onClose: () =>
     <article className={styles.detailPanel} aria-live="polite">
       <div className={styles.detailHeader}>
         <div>
-          <p className={styles.detailBreadcrumb}>Highlights / {category.title}</p>
+          <p className={styles.detailBreadcrumb}>Category / {category.title}</p>
           <h3>{category.title}</h3>
           <p>{category.summary}</p>
         </div>

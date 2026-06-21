@@ -149,7 +149,6 @@
 
 /* Interactive highlights experience */
 .experiencePanel {
-  padding: 32px;
   opacity: 0;
   animation: fadeUp 0.6s ease forwards;
   animation-delay: 0.3s;
@@ -157,29 +156,6 @@
   min-height: 0;
   position: relative;
   overflow: hidden;
-}
-
-.panelHeader {
-  position: relative;
-  z-index: 3;
-  font-family: var(--font-jetbrains), monospace;
-  pointer-events: none;
-}
-
-.panelHeader h2 {
-  font-family: var(--font-cormorant), serif;
-  font-size: clamp(34px, 5vw, 58px);
-  font-weight: 300;
-  line-height: 1;
-  color: rgba(240, 236, 227, 0.88);
-}
-
-.eyebrow {
-  margin-bottom: 8px;
-  color: var(--accent);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
 }
 
 .pathStage {
@@ -192,60 +168,59 @@
 .pathStage::before {
   content: "";
   position: absolute;
-  inset: 8% 4% 6% 0;
+  inset: 6% 5% 9% 7%;
   z-index: 0;
   background:
-    radial-gradient(circle at 45% 45%, rgba(201, 168, 76, 0.12), transparent 22%),
-    radial-gradient(circle at 76% 52%, rgba(201, 168, 76, 0.08), transparent 18%);
-  filter: blur(28px);
-  opacity: 0.7;
+    radial-gradient(circle at 41% 44%, rgba(201, 168, 76, 0.1), transparent 26%),
+    radial-gradient(circle at 71% 50%, rgba(201, 168, 76, 0.08), transparent 20%);
+  filter: blur(32px);
+  opacity: 0.76;
 }
 
 .fluidPath {
   position: absolute;
-  inset: 2% -2% 0 0;
+  inset: 0 1% 0 4%;
   z-index: 1;
-  width: 104%;
-  height: 96%;
+  width: 96%;
+  height: 100%;
   overflow: visible;
-  opacity: 0.72;
-  animation: waterDrift 18s ease-in-out infinite alternate;
+  opacity: 0.78;
+  animation: waterDrift 16s ease-in-out infinite alternate;
 }
 
-.stagePaused .fluidPath,
-.stagePaused .categoryNode {
-  animation-duration: 40s;
+.stagePaused .fluidPath {
+  animation-duration: 34s;
 }
 
 .pathLine {
   fill: none;
-  stroke: rgba(201, 168, 76, 0.42);
+  stroke: rgba(201, 168, 76, 0.4);
   stroke-width: 1.25;
   vector-effect: non-scaling-stroke;
-  filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.08));
+  filter: drop-shadow(0 0 9px rgba(201, 168, 76, 0.08));
   stroke-dasharray: 1450;
   stroke-dashoffset: 0;
-  animation: lineBreath 22s ease-in-out infinite alternate;
+  animation: lineBreath 24s ease-in-out infinite alternate;
 }
 
 .pathLine:nth-child(2) {
-  stroke: rgba(201, 168, 76, 0.34);
-  animation-delay: -4s;
+  stroke: rgba(201, 168, 76, 0.31);
+  animation-delay: -5s;
 }
 
 .pathLine:nth-child(3) {
-  stroke: rgba(201, 168, 76, 0.28);
-  animation-delay: -8s;
+  stroke: rgba(201, 168, 76, 0.24);
+  animation-delay: -10s;
 }
 
 .pathLine:nth-child(4) {
-  stroke: rgba(201, 168, 76, 0.23);
-  animation-delay: -12s;
+  stroke: rgba(201, 168, 76, 0.18);
+  animation-delay: -15s;
 }
 
 .pathLine:nth-child(5) {
-  stroke: rgba(201, 168, 76, 0.18);
-  animation-delay: -16s;
+  stroke: rgba(201, 168, 76, 0.13);
+  animation-delay: -20s;
 }
 
 .categoryNodes {
@@ -256,55 +231,66 @@
 
 .categoryNode {
   position: absolute;
-  width: min(260px, 24vw);
-  padding: 14px 16px 13px;
+  top: 0;
+  left: 0;
+  offset-path: path("M 108 332 C 236 128 356 302 496 210 C 650 110 744 318 894 190 C 1098 18 1270 156 1196 358 C 1126 548 934 404 786 516 C 604 654 502 478 330 560 C 160 640 16 522 108 332 Z");
+  offset-rotate: 0deg;
+  width: clamp(210px, 18vw, 300px);
+  min-height: 96px;
+  padding: 16px 18px 14px;
   border: 1px solid rgba(201, 168, 76, 0.24);
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(20, 20, 20, 0.88), rgba(10, 10, 10, 0.74));
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.9), rgba(9, 9, 9, 0.7));
   color: var(--text);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   cursor: pointer;
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 4px 10px;
+  gap: 4px 11px;
   text-align: left;
   font-family: var(--font-jetbrains), monospace;
-  transition: border-color 0.25s ease, background 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
-  animation: nodeFloat 8s ease-in-out infinite alternate;
+  transform: translate(-50%, -50%);
+  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, width 0.35s ease, min-height 0.35s ease, border-radius 0.35s ease, padding 0.35s ease;
+  animation: lazyPathTravel 56s linear infinite;
 }
 
-.categoryNode:hover,
+.categoryNode:hover {
+  animation-duration: 150s;
+  border-color: rgba(201, 168, 76, 0.72);
+  background: linear-gradient(135deg, rgba(28, 25, 17, 0.94), rgba(9, 9, 9, 0.84));
+}
+
 .categoryNodeActive {
-  border-color: rgba(201, 168, 76, 0.75);
-  background: linear-gradient(135deg, rgba(27, 25, 18, 0.94), rgba(9, 9, 9, 0.84));
-  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(201, 168, 76, 0.8);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.18), 0 28px 70px rgba(0, 0, 0, 0.44), 0 0 42px rgba(201, 168, 76, 0.13);
+  animation-play-state: paused;
 }
 
-.categoryNodeActive {
-  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.18), 0 22px 60px rgba(0, 0, 0, 0.34), 0 0 35px rgba(201, 168, 76, 0.12);
+.categoryNodeExpanded {
+  width: clamp(280px, 25vw, 390px);
+  min-height: 132px;
+  border-radius: 34px;
+  padding: 20px 22px 18px;
+  z-index: 8;
 }
 
-.nodeAthletics {
-  top: 27%;
-  left: 12%;
+.nodeStartAthletics {
+  offset-distance: 10%;
 }
 
-.nodeTech {
-  top: 21%;
-  right: 8%;
-  animation-delay: -2s;
+.nodeStartTech {
+  offset-distance: 35%;
+  animation-delay: -14s;
 }
 
-.nodeVenture {
-  right: 16%;
-  bottom: 19%;
-  animation-delay: -4s;
+.nodeStartVenture {
+  offset-distance: 60%;
+  animation-delay: -28s;
 }
 
-.nodeImpact {
-  left: 16%;
-  bottom: 14%;
-  animation-delay: -6s;
+.nodeStartImpact {
+  offset-distance: 84%;
+  animation-delay: -42s;
 }
 
 .nodeIndex {
@@ -312,19 +298,25 @@
   font-size: 9px;
   letter-spacing: 0.18em;
   grid-row: 1 / span 3;
-  padding-top: 3px;
+  padding-top: 4px;
 }
 
 .nodeTitle {
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(18px, 2vw, 24px);
-  line-height: 1;
+  font-size: clamp(22px, 2.25vw, 32px);
+  font-weight: 600;
+  line-height: 0.95;
 }
 
 .nodeSummary {
+  max-width: 210px;
   color: var(--muted);
   font-size: 10px;
   line-height: 1.45;
+}
+
+.categoryNodeExpanded .nodeSummary {
+  max-width: 290px;
 }
 
 .nodeMeta {
@@ -334,62 +326,32 @@
   text-transform: uppercase;
 }
 
-.stageHint {
-  position: absolute;
-  z-index: 3;
-  left: 50%;
-  top: 52%;
-  transform: translate(-50%, -50%);
-  width: min(360px, calc(100% - 80px));
-  padding: 18px 20px;
-  border: 1px solid rgba(201, 168, 76, 0.22);
-  border-radius: 999px;
-  background: rgba(8, 8, 8, 0.62);
-  backdrop-filter: blur(8px);
-  color: var(--muted);
-  font-family: var(--font-jetbrains), monospace;
-  text-align: center;
-}
-
-.stageHint span {
-  display: block;
-  margin-bottom: 5px;
-  color: var(--accent);
-  font-size: 9px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.stageHint p {
-  font-size: 10px;
-  line-height: 1.45;
-}
-
 .detailPanel {
   position: absolute;
-  z-index: 5;
-  top: 50%;
+  z-index: 7;
   left: 50%;
-  width: min(620px, calc(100% - 96px));
-  max-height: min(560px, calc(100% - 160px));
-  transform: translate(-50%, -45%);
-  padding: 22px;
-  border: 1px solid rgba(201, 168, 76, 0.36);
-  border-radius: 4px;
-  background: linear-gradient(145deg, rgba(7, 7, 7, 0.94), rgba(16, 16, 16, 0.88));
+  bottom: 8%;
+  width: min(720px, calc(100% - 160px));
+  max-height: min(360px, calc(100% - 180px));
+  transform: translateX(-50%);
+  padding: 20px 22px;
+  border: 1px solid rgba(201, 168, 76, 0.34);
+  border-radius: 26px;
+  background: linear-gradient(145deg, rgba(7, 7, 7, 0.95), rgba(16, 16, 16, 0.88));
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   backdrop-filter: blur(10px);
   font-family: var(--font-jetbrains), monospace;
   overflow: auto;
+  animation: detailRise 0.32s ease both;
 }
 
 .detailPanel::before {
   content: "";
   position: absolute;
-  inset: 12px;
+  inset: 11px;
   pointer-events: none;
   border: 1px solid rgba(240, 236, 227, 0.08);
-  border-radius: 2px;
+  border-radius: 20px;
 }
 
 .detailHeader {
@@ -398,7 +360,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
-  padding-bottom: 18px;
+  padding-bottom: 14px;
   border-bottom: 1px solid rgba(240, 236, 227, 0.1);
 }
 
@@ -411,15 +373,15 @@
 }
 
 .detailHeader h3 {
-  margin: 9px 0 8px;
+  margin: 8px 0 6px;
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(30px, 5vw, 44px);
-  font-weight: 400;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 500;
   line-height: 0.95;
 }
 
 .detailHeader p:last-child {
-  max-width: 430px;
+  max-width: 460px;
   color: var(--muted);
   font-size: 11px;
   line-height: 1.55;
@@ -452,7 +414,7 @@
   display: grid;
   grid-template-columns: 34px 1fr;
   gap: 10px;
-  padding: 18px 0;
+  padding: 14px 0;
   border-bottom: 1px solid rgba(240, 236, 227, 0.08);
 }
 
@@ -470,8 +432,8 @@
 
 .detailItem h4 {
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(19px, 3vw, 25px);
-  font-weight: 400;
+  font-size: clamp(18px, 2.4vw, 24px);
+  font-weight: 500;
   line-height: 1.1;
   margin-bottom: 6px;
 }
@@ -490,12 +452,21 @@
   text-transform: uppercase;
 }
 
-@keyframes waterDrift {
+@keyframes lazyPathTravel {
   from {
-    transform: translate3d(-12px, 8px, 0) scale(1.01) rotate(-0.4deg);
+    offset-distance: 0%;
   }
   to {
-    transform: translate3d(16px, -10px, 0) scale(1.035) rotate(0.45deg);
+    offset-distance: 100%;
+  }
+}
+
+@keyframes waterDrift {
+  from {
+    transform: translate3d(-18px, 8px, 0) scale(1.01) rotate(-0.3deg);
+  }
+  to {
+    transform: translate3d(18px, -8px, 0) scale(1.025) rotate(0.35deg);
   }
 }
 
@@ -508,12 +479,14 @@
   }
 }
 
-@keyframes nodeFloat {
+@keyframes detailRise {
   from {
-    translate: 0 -4px;
+    opacity: 0;
+    transform: translateX(-50%) translateY(18px) scale(0.98);
   }
   to {
-    translate: 0 6px;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
@@ -593,23 +566,21 @@
   }
 
   .experiencePanel {
-    min-height: 860px;
-    padding: 22px 20px;
+    min-height: 820px;
     overflow: visible;
   }
 
   .pathStage {
     position: relative;
     min-height: 760px;
-    margin-top: 18px;
-    overflow: visible;
+    overflow: hidden;
   }
 
   .fluidPath {
-    inset: 0 -34% auto -34%;
-    width: 168%;
-    height: 420px;
-    opacity: 0.46;
+    inset: 0 -32% auto -32%;
+    width: 164%;
+    height: 430px;
+    opacity: 0.42;
   }
 
   .categoryNodes {
@@ -617,42 +588,41 @@
     z-index: 5;
     display: grid;
     gap: 12px;
-    padding-top: 10px;
+    padding: 18px 20px 0;
   }
 
-  .categoryNode,
-  .nodeAthletics,
-  .nodeTech,
-  .nodeVenture,
-  .nodeImpact {
+  .categoryNode {
     position: relative;
     top: auto;
-    right: auto;
-    bottom: auto;
     left: auto;
+    offset-path: none;
+    offset-distance: auto;
     width: 100%;
+    min-height: 0;
     border-radius: 2px;
+    transform: none;
     animation: none;
   }
 
-  .stageHint {
-    position: relative;
-    top: auto;
-    left: auto;
+  .categoryNodeExpanded {
     width: 100%;
-    transform: none;
+    min-height: 0;
     border-radius: 2px;
-    margin-top: 18px;
   }
 
   .detailPanel {
     position: relative;
-    top: auto;
     left: auto;
-    width: 100%;
+    bottom: auto;
+    width: calc(100% - 40px);
     max-height: none;
     transform: none;
-    margin-top: 18px;
+    margin: 18px 20px 0;
+    border-radius: 2px;
+  }
+
+  .detailPanel::before {
+    border-radius: 1px;
   }
 
   .name {
@@ -675,15 +645,17 @@
     padding: 20px 16px;
   }
 
-  .experiencePanel {
-    padding: 18px 16px;
-  }
-
   .pathStage {
     min-height: 790px;
   }
 
+  .categoryNodes {
+    padding: 16px 16px 0;
+  }
+
   .detailPanel {
+    width: calc(100% - 32px);
+    margin: 16px 16px 0;
     padding: 18px;
   }
 
@@ -698,8 +670,13 @@
     padding: 16px 12px;
   }
 
-  .experiencePanel {
-    padding: 16px 12px;
+  .categoryNodes {
+    padding: 14px 12px 0;
+  }
+
+  .detailPanel {
+    width: calc(100% - 24px);
+    margin: 14px 12px 0;
   }
 
   .detailItem {
@@ -720,6 +697,7 @@
   .categoryNode,
   .fluidPath,
   .pathLine,
+  .detailPanel,
   .detailClose,
   .footerNav a,
   .grain {
