@@ -47,13 +47,16 @@ const projects = [
 export default function Home() {
   return (
     <>
+      <a className={styles.skipLink} href="#projects">
+        Skip to projects
+      </a>
       <div className={styles.grain} aria-hidden="true" />
 
       <div className={styles.layout}>
-        <main className={styles.main}>
+        <main className={styles.main} id="main-content">
 
           {/* Left panel */}
-          <aside className={styles.identity}>
+          <aside className={styles.identity} aria-label="Profile summary">
             <div>
               <h1 className={styles.name}>
                 Parth<br />
@@ -81,49 +84,52 @@ export default function Home() {
           </aside>
 
           {/* Projects grid */}
-          <section className={styles.projectsPanel}>
-          {projects.map((p) =>
-            p.href ? (
-              <a
-                key={p.index}
-                className={styles.projectCard}
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <div>
-                  <div className={styles.projectTop}>
-                    <span className={styles.projectIndex}>{p.index}</span>
-                    <span className={styles.projectTag}>{p.tag}</span>
+          <section className={styles.projectsPanel} id="projects" aria-labelledby="projects-heading">
+            <h2 className={styles.visuallyHidden} id="projects-heading">
+              Featured projects
+            </h2>
+            {projects.map((p) =>
+              p.href ? (
+                <a
+                  key={p.index}
+                  className={styles.projectCard}
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div>
+                    <div className={styles.projectTop}>
+                      <span className={styles.projectIndex}>{p.index}</span>
+                      <span className={styles.projectTag}>{p.tag}</span>
+                    </div>
+                    <h2 className={styles.projectName}>{p.name}</h2>
+                    <p className={styles.projectDesc}>{p.desc}</p>
                   </div>
-                  <h2 className={styles.projectName}>{p.name}</h2>
-                  <p className={styles.projectDesc}>{p.desc}</p>
-                </div>
-                <div className={styles.projectFooter}>
-                  <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
-                    {p.status}
-                  </span>
-                  {p.linkLabel && <span className={styles.projectLink}>{p.linkLabel}</span>}
-                </div>
-              </a>
-            ) : (
-              <div key={p.index} className={`${styles.projectCard} ${styles.projectCardStatic}`}>
-                <div>
-                  <div className={styles.projectTop}>
-                    <span className={styles.projectIndex}>{p.index}</span>
-                    <span className={styles.projectTag}>{p.tag}</span>
+                  <div className={styles.projectFooter}>
+                    <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
+                      {p.status}
+                    </span>
+                    {p.linkLabel && <span className={styles.projectLink}>{p.linkLabel}</span>}
                   </div>
-                  <h2 className={styles.projectName}>{p.name}</h2>
-                  <p className={styles.projectDesc}>{p.desc}</p>
-                </div>
-                <div className={styles.projectFooter}>
-                  <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
-                    {p.status}
-                  </span>
-                </div>
-              </div>
-            )
-          )}
+                </a>
+              ) : (
+                <article key={p.index} className={`${styles.projectCard} ${styles.projectCardStatic}`}>
+                  <div>
+                    <div className={styles.projectTop}>
+                      <span className={styles.projectIndex}>{p.index}</span>
+                      <span className={styles.projectTag}>{p.tag}</span>
+                    </div>
+                    <h2 className={styles.projectName}>{p.name}</h2>
+                    <p className={styles.projectDesc}>{p.desc}</p>
+                  </div>
+                  <div className={styles.projectFooter}>
+                    <span className={`${styles.projectStatus} ${p.statusLive ? styles.live : ""}`}>
+                      {p.status}
+                    </span>
+                  </div>
+                </article>
+              )
+            )}
           </section>
 
         </main>
@@ -131,7 +137,7 @@ export default function Home() {
         {/* Footer */}
         <footer className={styles.footer}>
           <span className={styles.footerLogo}>PS</span>
-          <nav className={styles.footerNav}>
+          <nav className={styles.footerNav} aria-label="Footer">
             <a href="https://www.linkedin.com/in/parth-sankhla/" target="_blank" rel="noopener noreferrer">
               LinkedIn
             </a>
