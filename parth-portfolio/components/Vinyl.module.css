@@ -16,6 +16,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
 }
 
 .vinylOuter {
@@ -23,6 +24,7 @@
   width: 80px;
   height: 80px;
   flex-shrink: 0;
+  min-width: 0;
 }
 
 .vinylDisk {
@@ -82,6 +84,7 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  min-width: 0;
 }
 
 .songTitle {
@@ -100,6 +103,42 @@
   font-family: var(--font-jetbrains), monospace;
 }
 
+/* Reduce vinyl size on small screens and adjust needle */
+@media (max-width: 420px) {
+  .vinylOuter {
+    width: 64px;
+    height: 64px;
+  }
+  .vinylDisk {
+    width: 64px;
+    height: 64px;
+  }
+  .vinylCenter {
+    width: 20px;
+    height: 20px;
+  }
+  .needle {
+    top: -4px;
+    right: -10px;
+    width: 32px;
+    height: 36px;
+    transform-origin: 85% 14%;
+    transform: rotate(22deg);
+  }
+  .vinylRow {
+    gap: 10px;
+  }
+  .songTitle {
+    font-size: 13px;
+  }
+}
+
+/* Disable spinning for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .vinylDisk {
+    animation: none !important;
+  }
+}
 @keyframes spin {
   from { transform: rotate(0deg); }
   to   { transform: rotate(360deg); }
