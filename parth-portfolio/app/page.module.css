@@ -168,23 +168,23 @@
 .pathStage::before {
   content: "";
   position: absolute;
-  inset: 6% 5% 9% 7%;
+  inset: 8% 7% 10% 7%;
   z-index: 0;
   background:
-    radial-gradient(circle at 41% 44%, rgba(201, 168, 76, 0.1), transparent 26%),
-    radial-gradient(circle at 71% 50%, rgba(201, 168, 76, 0.08), transparent 20%);
-  filter: blur(32px);
-  opacity: 0.76;
+    radial-gradient(circle at 42% 44%, rgba(201, 168, 76, 0.1), transparent 28%),
+    radial-gradient(circle at 73% 50%, rgba(201, 168, 76, 0.08), transparent 22%);
+  filter: blur(34px);
+  opacity: 0.8;
 }
 
 .fluidPath {
   position: absolute;
-  inset: 0 1% 0 4%;
+  inset: 4% 4% 6% 7%;
   z-index: 1;
-  width: 96%;
-  height: 100%;
+  width: 88%;
+  height: 90%;
   overflow: visible;
-  opacity: 0.78;
+  opacity: 0.62;
   animation: waterDrift 16s ease-in-out infinite alternate;
 }
 
@@ -194,8 +194,8 @@
 
 .pathLine {
   fill: none;
-  stroke: rgba(201, 168, 76, 0.4);
-  stroke-width: 1.25;
+  stroke: rgba(201, 168, 76, 0.36);
+  stroke-width: 1.2;
   vector-effect: non-scaling-stroke;
   filter: drop-shadow(0 0 9px rgba(201, 168, 76, 0.08));
   stroke-dasharray: 1450;
@@ -204,22 +204,22 @@
 }
 
 .pathLine:nth-child(2) {
-  stroke: rgba(201, 168, 76, 0.31);
+  stroke: rgba(201, 168, 76, 0.28);
   animation-delay: -5s;
 }
 
 .pathLine:nth-child(3) {
-  stroke: rgba(201, 168, 76, 0.24);
+  stroke: rgba(201, 168, 76, 0.22);
   animation-delay: -10s;
 }
 
 .pathLine:nth-child(4) {
-  stroke: rgba(201, 168, 76, 0.18);
+  stroke: rgba(201, 168, 76, 0.16);
   animation-delay: -15s;
 }
 
 .pathLine:nth-child(5) {
-  stroke: rgba(201, 168, 76, 0.13);
+  stroke: rgba(201, 168, 76, 0.1);
   animation-delay: -20s;
 }
 
@@ -231,18 +231,16 @@
 
 .categoryNode {
   position: absolute;
-  top: 0;
-  left: 0;
-  offset-path: path("M 108 332 C 236 128 356 302 496 210 C 650 110 744 318 894 190 C 1098 18 1270 156 1196 358 C 1126 548 934 404 786 516 C 604 654 502 478 330 560 C 160 640 16 522 108 332 Z");
-  offset-rotate: 0deg;
-  width: clamp(210px, 18vw, 300px);
+  top: var(--card-top);
+  left: var(--card-left);
+  width: clamp(220px, 18vw, 310px);
   min-height: 96px;
   padding: 16px 18px 14px;
-  border: 1px solid rgba(201, 168, 76, 0.24);
+  border: 1px solid rgba(201, 168, 76, 0.26);
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(20, 20, 20, 0.9), rgba(9, 9, 9, 0.7));
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.92), rgba(9, 9, 9, 0.74));
   color: var(--text);
-  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   cursor: pointer;
   display: grid;
   grid-template-columns: auto 1fr;
@@ -250,47 +248,36 @@
   text-align: left;
   font-family: var(--font-jetbrains), monospace;
   transform: translate(-50%, -50%);
-  transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease, width 0.35s ease, min-height 0.35s ease, border-radius 0.35s ease, padding 0.35s ease;
-  animation: lazyPathTravel 56s linear infinite;
+  transition:
+    top 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+    left 1.15s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease,
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    width 0.36s ease,
+    min-height 0.36s ease,
+    border-radius 0.36s ease,
+    padding 0.36s ease;
 }
 
 .categoryNode:hover {
-  animation-duration: 150s;
-  border-color: rgba(201, 168, 76, 0.72);
-  background: linear-gradient(135deg, rgba(28, 25, 17, 0.94), rgba(9, 9, 9, 0.84));
+  border-color: rgba(201, 168, 76, 0.76);
+  background: linear-gradient(135deg, rgba(28, 25, 17, 0.95), rgba(9, 9, 9, 0.86));
 }
 
 .categoryNodeActive {
-  border-color: rgba(201, 168, 76, 0.8);
-  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.18), 0 28px 70px rgba(0, 0, 0, 0.44), 0 0 42px rgba(201, 168, 76, 0.13);
-  animation-play-state: paused;
+  border-color: rgba(201, 168, 76, 0.84);
+  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.2), 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 48px rgba(201, 168, 76, 0.14);
 }
 
 .categoryNodeExpanded {
-  width: clamp(280px, 25vw, 390px);
-  min-height: 132px;
-  border-radius: 34px;
-  padding: 20px 22px 18px;
-  z-index: 8;
-}
-
-.nodeStartAthletics {
-  offset-distance: 10%;
-}
-
-.nodeStartTech {
-  offset-distance: 35%;
-  animation-delay: -14s;
-}
-
-.nodeStartVenture {
-  offset-distance: 60%;
-  animation-delay: -28s;
-}
-
-.nodeStartImpact {
-  offset-distance: 84%;
-  animation-delay: -42s;
+  width: min(620px, calc(100% - 96px));
+  min-height: 360px;
+  max-height: min(620px, calc(100% - 92px));
+  overflow: auto;
+  border-radius: 28px;
+  padding: 22px 24px 20px;
+  z-index: 9;
 }
 
 .nodeIndex {
@@ -309,14 +296,14 @@
 }
 
 .nodeSummary {
-  max-width: 210px;
+  max-width: 220px;
   color: var(--muted);
   font-size: 10px;
   line-height: 1.45;
 }
 
 .categoryNodeExpanded .nodeSummary {
-  max-width: 290px;
+  max-width: 430px;
 }
 
 .nodeMeta {
@@ -326,139 +313,55 @@
   text-transform: uppercase;
 }
 
-.detailPanel {
-  position: absolute;
-  z-index: 7;
-  left: 50%;
-  bottom: 8%;
-  width: min(720px, calc(100% - 160px));
-  max-height: min(360px, calc(100% - 180px));
-  transform: translateX(-50%);
-  padding: 20px 22px;
-  border: 1px solid rgba(201, 168, 76, 0.34);
-  border-radius: 26px;
-  background: linear-gradient(145deg, rgba(7, 7, 7, 0.95), rgba(16, 16, 16, 0.88));
-  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(10px);
-  font-family: var(--font-jetbrains), monospace;
-  overflow: auto;
-  animation: detailRise 0.32s ease both;
-}
-
-.detailPanel::before {
-  content: "";
-  position: absolute;
-  inset: 11px;
-  pointer-events: none;
-  border: 1px solid rgba(240, 236, 227, 0.08);
-  border-radius: 20px;
-}
-
-.detailHeader {
-  position: relative;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  padding-bottom: 14px;
-  border-bottom: 1px solid rgba(240, 236, 227, 0.1);
-}
-
-.detailBreadcrumb,
-.detailClose {
-  color: var(--accent);
-  font-size: 9px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.detailHeader h3 {
-  margin: 8px 0 6px;
-  font-family: var(--font-cormorant), serif;
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 500;
-  line-height: 0.95;
-}
-
-.detailHeader p:last-child {
-  max-width: 460px;
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.55;
-}
-
-.detailClose {
-  white-space: nowrap;
-  padding: 7px 9px;
-  border: 1px solid rgba(201, 168, 76, 0.26);
-  border-radius: 999px;
-  background: rgba(201, 168, 76, 0.04);
-  color: var(--muted);
-  cursor: pointer;
-  font-family: var(--font-jetbrains), monospace;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
-}
-
-.detailClose:hover {
-  border-color: rgba(201, 168, 76, 0.7);
-  color: var(--text);
-  background: rgba(201, 168, 76, 0.08);
-}
-
-.detailList {
-  position: relative;
+.expandedDetails {
+  grid-column: 1 / -1;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(240, 236, 227, 0.1);
   list-style: none;
 }
 
-.detailItem {
+.expandedDetails li {
   display: grid;
   grid-template-columns: 34px 1fr;
   gap: 10px;
-  padding: 14px 0;
+  padding: 13px 0;
   border-bottom: 1px solid rgba(240, 236, 227, 0.08);
 }
 
-.detailItem:last-child {
+.expandedDetails li:last-child {
   border-bottom: 0;
   padding-bottom: 0;
 }
 
-.detailIndex {
+.expandedDetails li > span {
   color: var(--muted);
   font-size: 10px;
   letter-spacing: 0.14em;
   padding-top: 5px;
 }
 
-.detailItem h4 {
+.expandedDetails h3 {
+  margin-bottom: 5px;
   font-family: var(--font-cormorant), serif;
   font-size: clamp(18px, 2.4vw, 24px);
   font-weight: 500;
   line-height: 1.1;
-  margin-bottom: 6px;
 }
 
-.detailItem p {
+.expandedDetails p {
   color: var(--muted);
   font-size: 11px;
   line-height: 1.55;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
-.detailItem span:last-child {
+.expandedDetails em {
   color: var(--accent);
   font-size: 8px;
+  font-style: normal;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-}
-
-@keyframes lazyPathTravel {
-  from {
-    offset-distance: 0%;
-  }
-  to {
-    offset-distance: 100%;
-  }
 }
 
 @keyframes waterDrift {
@@ -476,17 +379,6 @@
   }
   to {
     stroke-dashoffset: -90;
-  }
-}
-
-@keyframes detailRise {
-  from {
-    opacity: 0;
-    transform: translateX(-50%) translateY(18px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0) scale(1);
   }
 }
 
@@ -577,10 +469,10 @@
   }
 
   .fluidPath {
-    inset: 0 -32% auto -32%;
-    width: 164%;
+    inset: 0 -28% auto -28%;
+    width: 156%;
     height: 430px;
-    opacity: 0.42;
+    opacity: 0.38;
   }
 
   .categoryNodes {
@@ -595,34 +487,18 @@
     position: relative;
     top: auto;
     left: auto;
-    offset-path: none;
-    offset-distance: auto;
     width: 100%;
     min-height: 0;
     border-radius: 2px;
     transform: none;
-    animation: none;
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
   }
 
   .categoryNodeExpanded {
     width: 100%;
     min-height: 0;
-    border-radius: 2px;
-  }
-
-  .detailPanel {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    width: calc(100% - 40px);
     max-height: none;
-    transform: none;
-    margin: 18px 20px 0;
     border-radius: 2px;
-  }
-
-  .detailPanel::before {
-    border-radius: 1px;
   }
 
   .name {
@@ -652,17 +528,6 @@
   .categoryNodes {
     padding: 16px 16px 0;
   }
-
-  .detailPanel {
-    width: calc(100% - 32px);
-    margin: 16px 16px 0;
-    padding: 18px;
-  }
-
-  .detailHeader {
-    flex-direction: column;
-    gap: 8px;
-  }
 }
 
 @media (max-width: 420px) {
@@ -674,12 +539,7 @@
     padding: 14px 12px 0;
   }
 
-  .detailPanel {
-    width: calc(100% - 24px);
-    margin: 14px 12px 0;
-  }
-
-  .detailItem {
+  .expandedDetails li {
     grid-template-columns: 1fr;
   }
 }
@@ -697,8 +557,6 @@
   .categoryNode,
   .fluidPath,
   .pathLine,
-  .detailPanel,
-  .detailClose,
   .footerNav a,
   .grain {
     transition: none !important;

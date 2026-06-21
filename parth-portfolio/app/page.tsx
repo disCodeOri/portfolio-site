@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import Vinyl from "@/components/Vinyl";
 import styles from "./page.module.css";
 
@@ -11,7 +11,7 @@ const categories = [
     title: "Athletics",
     summary: "International, national, and state-level triathlon achievements.",
     meta: "8 details",
-    distance: styles.nodeStartAthletics,
+    phase: 0.04,
     items: [
       {
         title: "International Race in Nepal",
@@ -41,7 +41,7 @@ const categories = [
     title: "Technology & Research",
     summary: "Research software and custom client systems for niche workflows.",
     meta: "5 details",
-    distance: styles.nodeStartTech,
+    phase: 0.32,
     items: [
       {
         title: "BITS Pilani Research Software",
@@ -71,7 +71,7 @@ const categories = [
     title: "Entrepreneurship & Business",
     summary: "Fellowships, analytics, and agentic AI programs.",
     meta: "2 details",
-    distance: styles.nodeStartVenture,
+    phase: 0.58,
     items: [
       {
         title: "Yale Entrepreneurial Society",
@@ -91,7 +91,7 @@ const categories = [
     title: "Leadership, Impact & Recognition",
     summary: "Fundraising, readiness recognition, and external validation.",
     meta: "5 details",
-    distance: styles.nodeStartImpact,
+    phase: 0.82,
     items: [
       {
         title: "Habitat for Humanity Fundraiser",
@@ -118,15 +118,16 @@ const categories = [
 ];
 
 type Category = (typeof categories)[number];
+type CardPosition = { left: string; top: string };
+
+const initialPositions = Object.fromEntries(
+  categories.map((category) => [category.id, pointOnPath(category.phase)])
+) as Record<string, CardPosition>;
 
 export default function Home() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const [isHovering, setIsHovering] = useState(false);
-
-  const selectedCategory = useMemo(
-    () => categories.find((category) => category.id === selectedId) ?? null,
-    [selectedId]
-  );
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const positions = useLazyCardPositions(hoveredId, selectedId);
 
   return (
     <>
@@ -167,7 +168,7 @@ export default function Home() {
           </aside>
 
           <section className={styles.experiencePanel} id="highlights" aria-label="Interactive highlights">
-            <div className={`${styles.pathStage} ${isHovering ? styles.stagePaused : ""}`}>
+            <div className={`${styles.pathStage} ${hoveredId ? styles.stagePaused : ""}`}>
               <FluidPath />
 
               <div className={styles.categoryNodes} aria-label="Highlight categories">
@@ -175,17 +176,15 @@ export default function Home() {
                   <CategoryNode
                     key={category.id}
                     category={category}
-                    selected={category.id === selectedCategory?.id}
-                    expanded={category.id === selectedCategory?.id}
-                    onSelect={() => setSelectedId(category.id)}
-                    onHoverChange={setIsHovering}
+                    position={positions[category.id] ?? initialPositions[category.id]}
+                    selected={category.id === selectedId}
+                    expanded={category.id === selectedId}
+                    onSelect={() => setSelectedId((current) => current === category.id ? null : category.id)}
+                    onHoverChange={(hovering) => setHoveredId(hovering ? category.id : null)}
                   />
                 ))}
               </div>
 
-              {selectedCategory && (
-                <DetailPanel category={selectedCategory} onClose={() => setSelectedId(null)} />
-              )}
             </div>
           </section>
 
@@ -208,12 +207,14 @@ export default function Home() {
 
 function CategoryNode({
   category,
+  position,
   selected,
   expanded,
   onSelect,
   onHoverChange,
 }: {
   category: Category;
+  position: CardPosition;
   selected: boolean;
   expanded: boolean;
   onSelect: () => void;
@@ -221,49 +222,86 @@ function CategoryNode({
 }) {
   return (
     <button
-      className={`${styles.categoryNode} ${category.distance} ${selected ? styles.categoryNodeActive : ""} ${expanded ? styles.categoryNodeExpanded : ""}`}
+      className={`${styles.categoryNode} ${selected ? styles.categoryNodeActive : ""} ${expanded ? styles.categoryNodeExpanded : ""}`}
       type="button"
       onClick={onSelect}
       onMouseEnter={() => onHoverChange(true)}
       onMouseLeave={() => onHoverChange(false)}
       aria-pressed={selected}
+      aria-expanded={expanded}
+      style={{ "--card-left": position.left, "--card-top": position.top } as CSSProperties}
     >
       <span className={styles.nodeIndex}>{category.index}</span>
       <span className={styles.nodeTitle}>{category.title}</span>
       <span className={styles.nodeSummary}>{category.summary}</span>
-      <span className={styles.nodeMeta}>{category.meta}</span>
+      <span className={styles.nodeMeta}>{expanded ? "Click to collapse" : category.meta}</span>
+
+      {expanded && (
+        <ol className={styles.expandedDetails}>
+          {category.items.map((item, index) => (
+            <li key={item.title}>
+              <span>{String(index + 1).padStart(2, "0")}</span>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+                <em>{item.tag}</em>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
     </button>
   );
 }
 
-function DetailPanel({ category, onClose }: { category: Category; onClose: () => void }) {
-  return (
-    <article className={styles.detailPanel} aria-live="polite">
-      <div className={styles.detailHeader}>
-        <div>
-          <p className={styles.detailBreadcrumb}>Category / {category.title}</p>
-          <h3>{category.title}</h3>
-          <p>{category.summary}</p>
-        </div>
-        <button className={styles.detailClose} type="button" onClick={onClose}>
-          Back to categories
-        </button>
-      </div>
-
-      <ol className={styles.detailList}>
-        {category.items.map((item, index) => (
-          <li className={styles.detailItem} key={item.title}>
-            <span className={styles.detailIndex}>{String(index + 1).padStart(2, "0")}</span>
-            <div>
-              <h4>{item.title}</h4>
-              <p>{item.desc}</p>
-              <span>{item.tag}</span>
-            </div>
-          </li>
-        ))}
-      </ol>
-    </article>
+function useLazyCardPositions(hoveredId: string | null, selectedId: string | null) {
+  const progressRef = useRef(
+    Object.fromEntries(categories.map((category) => [category.id, category.phase])) as Record<string, number>
   );
+  const lastTimeRef = useRef<number | null>(null);
+  const [positions, setPositions] = useState(initialPositions);
+
+  useEffect(() => {
+    let frame = 0;
+
+    const tick = (time: number) => {
+      const lastTime = lastTimeRef.current ?? time;
+      const delta = Math.min(time - lastTime, 48);
+      lastTimeRef.current = time;
+
+      const nextPositions: Record<string, CardPosition> = {};
+
+      for (const category of categories) {
+        const current = progressRef.current[category.id];
+        const isHovered = hoveredId === category.id;
+        const isSelected = selectedId === category.id;
+        const speed = isSelected ? 0 : isHovered ? 0.000006 : 0.000026;
+        const next = (current + delta * speed) % 1;
+
+        progressRef.current[category.id] = next;
+        nextPositions[category.id] = pointOnPath(next);
+      }
+
+      setPositions(nextPositions);
+      frame = requestAnimationFrame(tick);
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [hoveredId, selectedId]);
+
+  return positions;
+}
+
+function pointOnPath(progress: number): CardPosition {
+  const angle = progress * Math.PI * 2;
+  const left = 50 + 36 * Math.sin(angle + 0.34) + 9 * Math.sin(angle * 2.7 + 1.1);
+  const top = 49 + 27 * Math.sin(angle * 1.35 - 1.2) + 8 * Math.cos(angle * 2.1 + 0.55);
+
+  return {
+    left: `${Math.max(16, Math.min(84, left))}%`,
+    top: `${Math.max(16, Math.min(78, top))}%`,
+  };
 }
 
 function FluidPath() {
