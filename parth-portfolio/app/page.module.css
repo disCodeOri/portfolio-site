@@ -391,13 +391,19 @@
 
 /* Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
-  .projectCard,
-  .layout,
   .identity,
   .projectsPanel,
-  .footer,
-  .grain {
+  .footer {
     animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .projectCard,
+  .projectCard::before,
+  .projectLink,
+  .footerNav a,
+  .grain {
     transition: none !important;
   }
 }
