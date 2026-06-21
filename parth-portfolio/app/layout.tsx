@@ -1,32 +1,50 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["300", "400", "600"],
-  style: ["normal", "italic"],
-  variable: "--font-cormorant",
-  display: "swap",
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-  variable: "--font-jetbrains",
-  display: "swap",
-});
+const siteUrl = "https://parthsankhla.vercel.app";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: "Parth Sankhla",
   description: "Software Developer. Triathlete. Builder.",
-  // Provide a dark theme color for the browser UI on supported platforms
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  applicationName: "Parth Sankhla Portfolio",
+  authors: [{ name: "Parth Sankhla" }],
+  creator: "Parth Sankhla",
+  publisher: "Parth Sankhla",
+  keywords: [
+    "Parth Sankhla",
+    "software developer",
+    "portfolio",
+    "full stack developer",
+    "Hyderabad",
   ],
-  // Hint that this site is primarily dark
-  colorScheme: "dark",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Parth Sankhla",
+    description: "Software Developer. Triathlete. Builder.",
+    url: siteUrl,
+    siteName: "Parth Sankhla",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Parth Sankhla",
+    description: "Software Developer. Triathlete. Builder.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -34,6 +52,11 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0b0b0b" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  ],
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -42,7 +65,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en">
       <body>{children}</body>
     </html>
   );
