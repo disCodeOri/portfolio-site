@@ -104,8 +104,8 @@ const achievementGroups: AchievementGroup[] = [
       {
         title: "Custom Client Software Services",
         body:
-          "Building a rent management system for a property owner managing 27 properties across multiple locations.",
-        meta: "27-property system",
+          "Delivered Zariya, a full-stack e-commerce platform for a sustainable fashion brand, handling payments, order management, and dynamic inventory. Also building a rent management system for a property owner managing 27 properties across multiple locations.",
+        meta: "Delivering client orders",
       },
     ],
   },
