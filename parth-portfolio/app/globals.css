@@ -5,14 +5,17 @@
 }
 
 :root {
-  --bg: #0b0b0b;
-  --surface: #141414;
-  --surface-hover: #1c1c1c;
-  --border: #2a2a2a;
-  --border-hover: #3a3a3a;
-  --text: #f0ece3;
-  --muted: #aaa398;
-  --accent: #c9a84c;
+  --bg: #03050a;
+  --surface: #080c14;
+  --surface-hover: #101827;
+  --border: #172338;
+  --border-hover: #2f6dff;
+  --text: #f7f9ff;
+  --muted: #9aa8c7;
+  --accent: #ff315d;
+  --accent-blue: #2f6dff;
+  --accent-cyan: #73d7ff;
+  --accent-green: #7cffb2;
   --font-cormorant: Georgia, "Times New Roman", serif;
   --font-jetbrains: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
@@ -49,6 +52,14 @@ body {
   }
 }
 
+@media (max-width: 900px) {
+  html,
+  body {
+    height: auto;
+    min-height: 100%;
+  }
+}
+
 /* Improve touch behavior for interactive elements */
 a,
 button {
@@ -58,7 +69,7 @@ button {
 
 /* Better focus outlines for accessibility */
 :focus-visible {
-  outline: 2px solid rgba(201,168,76,0.9);
+  outline: 2px solid rgba(47, 109, 255, 0.92);
   outline-offset: 2px;
 }
 

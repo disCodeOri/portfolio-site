@@ -1,10 +1,10 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g clip-path="url(#clip0)">
     <!-- Base large triangle (Background/Builder) -->
-    <path d="M32 12L56 52H8L32 12Z" fill="#c9a84c" fill-opacity="0.2"/>
+    <path d="M32 12L56 52H8L32 12Z" fill="#2f6dff" fill-opacity="0.22"/>
     <!-- Middle triangle (Triathlete) -->
-    <path d="M32 26L46 52H18L32 26Z" fill="#c9a84c" fill-opacity="0.5"/>
+    <path d="M32 26L46 52H18L32 26Z" fill="#ff315d" fill-opacity="0.54"/>
     <!-- Front triangle (Developer) -->
-    <path d="M32 40L38 52H26L32 40Z" fill="#c9a84c"/>
+    <path d="M32 40L38 52H26L32 40Z" fill="#7cffb2"/>
   </g>
 </svg>

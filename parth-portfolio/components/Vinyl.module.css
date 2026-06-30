@@ -52,8 +52,8 @@
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, #2a1f0e, #3d2e12, #c9a84c, #3d2e12, #2a1f0e, #c9a84c, #2a1f0e);
-  border: 1px solid rgba(201, 168, 76, 0.4);
+  background: conic-gradient(from 0deg, #070b14, #142c62, #2f6dff, #101827, #ff315d, #2f6dff, #070b14);
+  border: 1px solid rgba(47, 109, 255, 0.48);
 }
 
 .vinylCenter::after {
@@ -62,7 +62,7 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #0b0b0b;
+  background: var(--bg);
   position: absolute;
   top: 50%;
   left: 50%;
