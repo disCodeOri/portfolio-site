@@ -70,3 +70,19 @@ test("getListeningTrack returns an unavailable state when fallback playlist has 
   assert.equal(track.title, "Playlist signal unavailable");
   process.env = previousEnv;
 });
+
+test("getListeningTrack returns public-safe copy when Spotify credentials are missing", async () => {
+  const previousEnv = { ...process.env };
+  delete process.env.SPOTIFY_CLIENT_ID;
+  delete process.env.SPOTIFY_CLIENT_SECRET;
+  delete process.env.SPOTIFY_REFRESH_TOKEN;
+
+  const track = await getListeningTrack(async () => {
+    throw new Error("fetch should not run without credentials");
+  });
+
+  assert.equal(track.id, "spotify-not-configured");
+  assert.equal(track.title, "Signal offline");
+  assert.equal(track.artist, "Spotify uplink pending");
+  process.env = previousEnv;
+});

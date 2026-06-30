@@ -133,7 +133,7 @@ async function getListeningTrack(fetchImpl = fetch) {
   if (!accessToken) {
     return {
       albumImageUrl: null,
-      artist: "Spotify credentials missing",
+      artist: "Spotify uplink pending",
       id: "spotify-not-configured",
       isPlaying: false,
       source: "unconfigured",
