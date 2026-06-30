@@ -1,25 +1,14 @@
 "use client";
 
-import {
-  Background,
-  BackgroundVariant,
-  Handle,
-  Position,
-  ReactFlow,
-  useNodesState,
-  type Edge,
-  type Node,
-  type NodeProps,
-} from "@xyflow/react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
   type PointerEvent,
 } from "react";
+import AchievementCardsScene from "./AchievementCardsScene";
 import styles from "./AchievementFlow.module.css";
 
 type AchievementItem = {
@@ -28,7 +17,7 @@ type AchievementItem = {
   meta: string;
 };
 
-type AchievementGroup = {
+export type AchievementGroup = {
   id: string;
   index: string;
   title: string;
@@ -44,13 +33,6 @@ type DossierNodeData = AchievementGroup & {
   onHover: (id: string | null) => void;
   onToggle: (id: string) => void;
   shouldReduceMotion: boolean;
-};
-
-type DossierNode = Node<DossierNodeData, "dossier">;
-
-type FlowSize = {
-  width: number;
-  height: number;
 };
 
 const achievementGroups: AchievementGroup[] = [
@@ -178,86 +160,6 @@ const cardRevealDelays: Record<string, number> = {
   leadership: 0.32,
 };
 
-const flowZoom = 0.8;
-
-const fallbackFlowPositions: Record<string, { x: number; y: number }> = {
-  athletics: { x: 134, y: 540 },
-  technology: { x: 470, y: 382 },
-  business: { x: 800, y: 258 },
-  leadership: { x: 1080, y: 100 },
-};
-
-function getFlowPositions(size: FlowSize): Record<string, { x: number; y: number }> {
-  if (!size.width || !size.height) {
-    return fallbackFlowPositions;
-  }
-
-  const cardWidth = 280;
-  const cardHeight = 268;
-  const gutter = 36;
-  const maxX = Math.max(gutter, size.width - cardWidth - gutter);
-  const maxY = Math.max(72, size.height - cardHeight - 76);
-  const toFlowPoint = (x: number, y: number) => ({
-    x: Math.min(maxX, Math.max(gutter, x)) / flowZoom,
-    y: Math.min(maxY, Math.max(72, y)) / flowZoom,
-  });
-
-  return {
-    athletics: toFlowPoint(size.width * 0.08, size.height * 0.59),
-    technology: toFlowPoint(size.width * 0.3, size.height * 0.43),
-    business: toFlowPoint(size.width * 0.52, size.height * 0.3),
-    leadership: toFlowPoint(size.width * 0.74, size.height * 0.1),
-  };
-}
-
-const nodeTypes = {
-  dossier: DossierCard,
-};
-
-function DossierCard({ data }: NodeProps<DossierNode>) {
-  const cardRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const card = cardRef.current;
-
-    if (!card) {
-      return;
-    }
-
-    const openCard = () => data.onToggle(data.id);
-    const openCardFromKeyboard = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        data.onToggle(data.id);
-      }
-    };
-
-    card.addEventListener("click", openCard);
-    card.addEventListener("keydown", openCardFromKeyboard);
-
-    return () => {
-      card.removeEventListener("click", openCard);
-      card.removeEventListener("keydown", openCardFromKeyboard);
-    };
-  }, [data]);
-
-  return (
-    <div
-      aria-expanded={data.isExpanded}
-      className={`${styles.dossierCard} ${
-        data.isHovered ? styles.dossierCardActive : ""
-      } ${data.isExpanded ? styles.dossierCardSelected : ""}`}
-      onMouseEnter={() => data.onHover(data.id)}
-      onMouseLeave={() => data.onHover(null)}
-      ref={cardRef}
-      role="button"
-      tabIndex={0}
-    >
-      <DossierCardChrome data={data} showHandles />
-    </div>
-  );
-}
-
 function DossierButton({ data }: { data: DossierNodeData }) {
   const updateSpotlight = (event: PointerEvent<HTMLButtonElement>) => {
     const bounds = event.currentTarget.getBoundingClientRect();
@@ -309,27 +211,11 @@ function DossierButton({ data }: { data: DossierNodeData }) {
 
 function DossierCardChrome({
   data,
-  showHandles = false,
 }: {
   data: DossierNodeData;
-  showHandles?: boolean;
 }) {
   return (
     <>
-      {showHandles ? (
-        <>
-          <Handle
-            className={styles.flowHandle}
-            position={Position.Left}
-            type="target"
-          />
-          <Handle
-            className={styles.flowHandle}
-            position={Position.Right}
-            type="source"
-          />
-        </>
-      ) : null}
       <span className={styles.cardCorner} aria-hidden="true" />
       <span className={styles.cardIndex}>{data.index}</span>
       <span className={styles.cardSignal}>{data.signal}</span>
@@ -444,9 +330,7 @@ function DetailModal({
 }
 
 export default function AchievementFlow() {
-  const flowCanvasRef = useRef<HTMLDivElement | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [flowSize, setFlowSize] = useState<FlowSize>({ width: 0, height: 0 });
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const shouldReduceMotion = useReducedMotion();
 
@@ -458,29 +342,6 @@ export default function AchievementFlow() {
     setExpandedId(null);
   }, []);
 
-  useEffect(() => {
-    const canvas = flowCanvasRef.current;
-
-    if (!canvas) {
-      return;
-    }
-
-    const updateSize = () => {
-      const bounds = canvas.getBoundingClientRect();
-      setFlowSize({
-        width: Math.round(bounds.width),
-        height: Math.round(bounds.height),
-      });
-    };
-    const observer = new ResizeObserver(updateSize);
-
-    updateSize();
-    observer.observe(canvas);
-
-    return () => observer.disconnect();
-  }, []);
-
-  const flowPositions = useMemo(() => getFlowPositions(flowSize), [flowSize]);
   const activeGroup = useMemo(
     () => achievementGroups.find((group) => group.id === expandedId) ?? null,
     [expandedId],
@@ -497,101 +358,6 @@ export default function AchievementFlow() {
 
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [closeModal]);
-
-  const baseNodes = useMemo<DossierNode[]>(
-    () =>
-      achievementGroups.map((group) => ({
-        id: group.id,
-        data: {
-          ...group,
-          footer: cardFooters[group.id],
-          isExpanded: false,
-          isHovered: false,
-          onHover: setHoveredId,
-          onToggle: toggleGroup,
-          shouldReduceMotion: Boolean(shouldReduceMotion),
-        },
-        draggable: true,
-        position: flowPositions[group.id],
-        selectable: false,
-        type: "dossier",
-      })),
-    [flowPositions, shouldReduceMotion, toggleGroup],
-  );
-
-  const [nodes, setNodes, onNodesChange] = useNodesState<DossierNode>(baseNodes);
-
-  useEffect(() => {
-    if (!flowSize.width || !flowSize.height) {
-      return;
-    }
-
-    setNodes((currentNodes) =>
-      currentNodes.map((node) => ({
-        ...node,
-        position: flowPositions[node.id] ?? node.position,
-      })),
-    );
-  }, [flowPositions, flowSize.height, flowSize.width, setNodes]);
-
-  useEffect(() => {
-    setNodes((currentNodes) =>
-      currentNodes.map((node) => ({
-        ...node,
-        style: {
-          ...node.style,
-          zIndex: expandedId === node.id ? 30 : hoveredId === node.id ? 20 : 1,
-        },
-        zIndex: expandedId === node.id ? 30 : hoveredId === node.id ? 20 : 1,
-        data: {
-          ...node.data,
-          isExpanded: expandedId === node.id,
-          isHovered: hoveredId === node.id,
-          onHover: setHoveredId,
-          onToggle: toggleGroup,
-          shouldReduceMotion: Boolean(shouldReduceMotion),
-        },
-      })),
-    );
-  }, [expandedId, hoveredId, setNodes, shouldReduceMotion, toggleGroup]);
-
-  const edges = useMemo<Edge[]>(
-    () =>
-      [
-        {
-          id: "athletics-technology",
-          source: "athletics",
-          target: "technology",
-        },
-        {
-          id: "technology-business",
-          source: "technology",
-          target: "business",
-        },
-        {
-          id: "business-leadership",
-          source: "business",
-          target: "leadership",
-        },
-      ].map((edge) => ({
-        ...edge,
-        animated: false,
-        className: `${styles.flowEdge} ${
-          shouldReduceMotion ? "" : styles.flowEdgeAnimated
-        }`,
-        style: {
-          opacity:
-            expandedId && !edge.id.includes(expandedId)
-              ? 0.24
-              : expandedId
-                ? 0.92
-                : 0.74,
-          stroke: "#ffcc00",
-          strokeWidth: expandedId && edge.id.includes(expandedId) ? 2.6 : 2,
-        },
-      })),
-    [expandedId, shouldReduceMotion],
-  );
 
   return (
     <section
@@ -669,45 +435,19 @@ export default function AchievementFlow() {
           </p>
           <span className={styles.signalLine}>
             <span aria-hidden="true" />
-            React Flow proof map
+            React Three Fiber proof carousel
           </span>
         </motion.div>
 
-        <div
-          className={styles.flowCanvas}
-          ref={flowCanvasRef}
-          aria-label="Achievement map"
-        >
-          <ReactFlow
-            aria-label="Achievement category map"
-            className={styles.reactFlowSurface}
-            defaultViewport={{ x: 0, y: 0, zoom: flowZoom }}
-            edges={edges}
-            elementsSelectable={false}
-            maxZoom={0.92}
-            minZoom={0.72}
-            nodeTypes={nodeTypes}
-            nodes={nodes}
-            nodesConnectable={false}
-            nodesDraggable
-            onNodeMouseEnter={(_, node) => setHoveredId(node.id)}
-            onNodeMouseLeave={() => setHoveredId(null)}
-            onNodesChange={onNodesChange}
-            panOnDrag={false}
-            panOnScroll={false}
-            preventScrolling={false}
-            proOptions={{ hideAttribution: true }}
-            zoomOnDoubleClick={false}
-            zoomOnPinch={false}
-            zoomOnScroll={false}
-          >
-            <Background
-              color="rgba(240, 236, 227, 0.045)"
-              gap={96}
-              variant={BackgroundVariant.Lines}
-            />
-          </ReactFlow>
-        </div>
+        <AchievementCardsScene
+          footers={cardFooters}
+          groups={achievementGroups}
+          hoveredId={hoveredId}
+          onHover={setHoveredId}
+          onSelect={toggleGroup}
+          selectedId={expandedId}
+          shouldReduceMotion={Boolean(shouldReduceMotion)}
+        />
 
         <div className={styles.mobileFlowList}>
           {achievementGroups.map((group) => (
