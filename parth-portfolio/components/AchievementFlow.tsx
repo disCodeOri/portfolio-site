@@ -21,6 +21,7 @@ import {
   type PointerEvent,
 } from "react";
 import styles from "./AchievementFlow.module.css";
+import ShaderBackdrop from "./ShaderBackdrop";
 
 type AchievementItem = {
   title: string;
@@ -205,7 +206,7 @@ function getFlowPositions(size: FlowSize): Record<string, { x: number; y: number
   return {
     athletics: toFlowPoint(size.width * 0.08, size.height * 0.59),
     technology: toFlowPoint(size.width * 0.3, size.height * 0.43),
-    business: toFlowPoint(size.width * 0.52, size.height * 0.3),
+    business: toFlowPoint(size.width * 0.58, size.height * 0.52),
     leadership: toFlowPoint(size.width * 0.74, size.height * 0.1),
   };
 }
@@ -605,6 +606,8 @@ export default function AchievementFlow() {
         initial={{ opacity: 0 }}
         transition={{ duration: 0.36, ease: "easeOut" }}
       >
+        <ShaderBackdrop className={styles.shaderLayer} />
+
         <svg
           className={styles.ambientField}
           viewBox="0 0 1000 640"

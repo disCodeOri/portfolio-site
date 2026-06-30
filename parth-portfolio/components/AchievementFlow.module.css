@@ -22,7 +22,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 0;
+  z-index: 1;
   pointer-events: none;
   background:
     linear-gradient(rgba(240, 236, 227, 0.018) 1px, transparent 1px),
@@ -37,7 +37,7 @@
   content: "";
   position: absolute;
   inset: 24px 20px 20px;
-  z-index: 0;
+  z-index: 4;
   pointer-events: none;
   border: 1px solid rgba(240, 236, 227, 0.06);
   background:
@@ -50,6 +50,36 @@
     linear-gradient(270deg, rgba(255, 204, 0, 0.36) 0 26px, transparent 26px) bottom right / 74px 1px no-repeat,
     linear-gradient(0deg, rgba(255, 204, 0, 0.36) 0 26px, transparent 26px) bottom right / 1px 74px no-repeat;
   opacity: 0.72;
+}
+
+.shaderLayer {
+  position: absolute !important;
+  inset: -18% -12% -10% -18%;
+  z-index: 0;
+  width: 130% !important;
+  height: 128% !important;
+  pointer-events: none;
+  opacity: 0.34;
+  filter: saturate(0.88) contrast(1.08);
+  mix-blend-mode: screen;
+  transform: rotate(-2deg) scale(1.02);
+  transform-origin: 50% 45%;
+  mask-image:
+    radial-gradient(circle at 64% 45%, black 0 33%, rgba(0, 0, 0, 0.62) 50%, transparent 78%),
+    linear-gradient(90deg, transparent 0, black 18%, black 84%, transparent 100%);
+}
+
+.shaderLayer,
+.shaderLayer > div,
+.shaderLayer canvas {
+  min-width: 100% !important;
+  min-height: 100% !important;
+}
+
+.shaderLayer canvas {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .overviewField {
@@ -1223,6 +1253,14 @@
     opacity: 0.62;
   }
 
+  .shaderLayer {
+    inset: -12% -30% auto -38%;
+    width: 168% !important;
+    height: 460px !important;
+    opacity: 0.24;
+    mask-image: radial-gradient(circle at 52% 40%, black 0 34%, rgba(0, 0, 0, 0.55) 52%, transparent 78%);
+  }
+
   .flowCanvas {
     display: none;
   }
@@ -1396,6 +1434,13 @@
 
   .ambientField {
     opacity: 0.46;
+  }
+
+  .shaderLayer {
+    inset: -8% -42% auto -48%;
+    width: 190% !important;
+    height: 360px !important;
+    opacity: 0.2;
   }
 
   .overviewCopy {
@@ -1575,5 +1620,10 @@
   .detailTab,
   .modalClose {
     transition: none !important;
+  }
+
+  .shaderLayer {
+    opacity: 0.14;
+    transform: none;
   }
 }
