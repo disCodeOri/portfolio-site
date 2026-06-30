@@ -34,14 +34,14 @@
   position: relative;
   width: 100%;
   height: 100%;
-  border: 1px solid rgba(255, 49, 93, 0.58);
+  border: 1px solid rgba(124, 255, 178, 0.5);
   background:
-    radial-gradient(circle at 50% 50%, rgba(115, 215, 255, 0.28), transparent 0 8px, rgba(47, 109, 255, 0.16) 9px 18px, transparent 19px),
-    conic-gradient(from 30deg, #ff315d, #2f6dff, #03050a, #ff315d);
+    radial-gradient(circle at 50% 50%, rgba(124, 255, 178, 0.32), transparent 0 8px, rgba(47, 109, 255, 0.16) 9px 18px, transparent 19px),
+    conic-gradient(from 30deg, #ff315d, #2f6dff, #7cffb2, #03050a, #ff315d);
   clip-path: polygon(16% 0, 100% 0, 84% 100%, 0 100%);
   overflow: hidden;
   box-shadow:
-    0 0 28px rgba(255, 49, 93, 0.18),
+    0 0 28px rgba(124, 255, 178, 0.16),
     inset 0 0 24px rgba(3, 5, 10, 0.74);
 }
 
@@ -80,10 +80,10 @@
 .coreRing {
   position: absolute;
   inset: 26px;
-  border: 1px solid rgba(115, 215, 255, 0.9);
+  border: 1px solid rgba(124, 255, 178, 0.92);
   border-radius: 50%;
   box-shadow:
-    0 0 14px rgba(115, 215, 255, 0.78),
+    0 0 14px rgba(124, 255, 178, 0.76),
     inset 0 0 12px rgba(47, 109, 255, 0.52);
 }
 
@@ -98,14 +98,14 @@
   background: #f7f9ff;
   box-shadow:
     0 0 14px rgba(247, 249, 255, 0.9),
-    0 0 26px rgba(255, 49, 93, 0.72);
+    0 0 26px rgba(124, 255, 178, 0.62);
 }
 
 .coreGlow {
   position: absolute;
   inset: 14px;
   z-index: -1;
-  background: rgba(255, 49, 93, 0.34);
+  background: rgba(124, 255, 178, 0.3);
   filter: blur(18px);
   pointer-events: none;
 }
@@ -118,7 +118,7 @@
 }
 
 .signalLabel {
-  color: var(--accent-cyan);
+  color: var(--accent-green);
   font-family: var(--font-jetbrains), monospace;
   font-size: 8px;
   font-weight: 700;
@@ -166,8 +166,8 @@
   display: block;
   width: 3px;
   min-height: 4px;
-  background: var(--accent);
-  box-shadow: 0 0 10px rgba(255, 49, 93, 0.68);
+  background: var(--accent-green);
+  box-shadow: 0 0 10px rgba(124, 255, 178, 0.62);
   animation: pulseBar 1.2s ease-in-out infinite;
 }
 
@@ -179,7 +179,7 @@
 
 .equalizer span:nth-child(3n + 2) {
   height: 15px;
-  background: var(--accent-cyan);
+  background: var(--accent);
   animation-delay: -0.36s;
 }
 
@@ -190,11 +190,11 @@
 
 .vinylRow:hover .coreFace,
 .vinylRow:focus-visible .coreFace {
-  border-color: rgba(115, 215, 255, 0.86);
+  border-color: rgba(124, 255, 178, 0.9);
 }
 
 .vinylRow:focus-visible {
-  outline: 2px solid rgba(115, 215, 255, 0.88);
+  outline: 2px solid rgba(124, 255, 178, 0.88);
   outline-offset: 5px;
 }
 

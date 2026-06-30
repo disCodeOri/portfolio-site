@@ -289,7 +289,7 @@
 }
 
 .projectStatus.live {
-  color: var(--accent-cyan);
+  color: var(--accent-green);
 }
 
 .projectLink {

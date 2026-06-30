@@ -5,6 +5,6 @@
     <!-- Middle triangle (Triathlete) -->
     <path d="M32 26L46 52H18L32 26Z" fill="#ff315d" fill-opacity="0.54"/>
     <!-- Front triangle (Developer) -->
-    <path d="M32 40L38 52H26L32 40Z" fill="#f7f9ff"/>
+    <path d="M32 40L38 52H26L32 40Z" fill="#7cffb2"/>
   </g>
 </svg>

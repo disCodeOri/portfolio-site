@@ -33,7 +33,7 @@ const cardPoses: CardPose[] = [
 const cardAccents: Record<string, string> = {
   athletics: "#ff315d",
   technology: "#2f6dff",
-  business: "#73d7ff",
+  business: "#7cffb2",
   leadership: "#f7f9ff",
 };
 
@@ -64,7 +64,7 @@ export default function AchievementCardsScene({
           penumbra={0.8}
           position={[0, 3.4, 5.4]}
         />
-        <pointLight color="#2f6dff" intensity={2.2} position={[-3.4, -1.4, 3]} />
+        <pointLight color="#7cffb2" intensity={1.7} position={[-3.4, -1.4, 3]} />
         <pointLight color="#ff315d" intensity={1.7} position={[3, 1.6, 2.4]} />
         <CardRig hoveredId={hoveredId} shouldReduceMotion={shouldReduceMotion}>
           {groups.map((group, index) => (
