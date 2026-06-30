@@ -26,29 +26,26 @@
   position: absolute;
   left: var(--card-x);
   top: var(--card-y);
-  width: 224px;
-  min-height: 144px;
-  border: 1px solid color-mix(in srgb, var(--card-accent) 34%, transparent);
+  width: 248px;
+  min-height: 158px;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 38%, transparent);
   border-radius: 12px;
   background:
-    linear-gradient(145deg, rgba(24, 24, 20, 0.9), rgba(6, 6, 5, 0.8)),
-    rgba(8, 8, 6, 0.84);
+    radial-gradient(circle at 82% 12%, color-mix(in srgb, var(--card-accent) 12%, transparent), transparent 34%),
+    linear-gradient(145deg, rgba(13, 18, 31, 0.92), rgba(3, 5, 10, 0.82)),
+    rgba(3, 5, 10, 0.88);
   box-shadow:
-    inset 0 0 0 1px rgba(240, 236, 227, 0.04),
-    0 22px 56px rgba(0, 0, 0, 0.42);
+    inset 0 0 0 1px rgba(247, 249, 255, 0.05),
+    0 22px 56px rgba(0, 0, 0, 0.48);
   color: var(--text);
   cursor: pointer;
   display: grid;
-  gap: 6px;
-  padding: 15px 16px 14px;
+  gap: 7px;
+  padding: 16px 17px 15px;
   text-align: left;
   font-family: var(--font-jetbrains), monospace;
   pointer-events: auto;
-  transform:
-    translate(-50%, -50%)
-    rotate(var(--card-rotate))
-    rotateX(4deg)
-    translateZ(24px);
+  transform: translate(-50%, -50%) rotate(var(--card-rotate)) rotateX(4deg) translateZ(24px);
   transform-style: preserve-3d;
   transition:
     border-color 0.2s ease,
@@ -68,25 +65,22 @@
     linear-gradient(var(--card-accent) 0 17px, transparent 17px) top left / 1px 42px no-repeat,
     linear-gradient(270deg, var(--card-accent) 0 17px, transparent 17px) bottom right / 42px 1px no-repeat,
     linear-gradient(0deg, var(--card-accent) 0 17px, transparent 17px) bottom right / 1px 42px no-repeat;
-  opacity: 0.44;
+  opacity: 0.48;
 }
 
 .cardContentActive,
 .cardContent:hover,
 .cardContent:focus-visible {
-  border-color: color-mix(in srgb, var(--card-accent) 78%, rgba(240, 236, 227, 0.14));
+  border-color: color-mix(in srgb, var(--card-accent) 80%, rgba(247, 249, 255, 0.18));
   background:
-    radial-gradient(circle at 72% 18%, color-mix(in srgb, var(--card-accent) 18%, transparent), transparent 38%),
-    linear-gradient(145deg, rgba(27, 27, 22, 0.94), rgba(8, 8, 6, 0.86));
+    radial-gradient(circle at 74% 16%, color-mix(in srgb, var(--card-accent) 24%, transparent), transparent 40%),
+    linear-gradient(145deg, rgba(17, 24, 39, 0.96), rgba(3, 5, 10, 0.88));
   box-shadow:
-    inset 0 0 0 1px rgba(240, 236, 227, 0.07),
-    0 28px 74px rgba(0, 0, 0, 0.56);
+    inset 0 0 0 1px rgba(247, 249, 255, 0.08),
+    0 28px 74px rgba(0, 0, 0, 0.6),
+    0 0 42px color-mix(in srgb, var(--card-accent) 18%, transparent);
   outline: none;
-  transform:
-    translate(-50%, -54%)
-    rotate(var(--card-rotate))
-    rotateX(0deg)
-    translateZ(52px);
+  transform: translate(-50%, -54%) rotate(var(--card-rotate)) rotateX(0deg) translateZ(52px);
 }
 
 .cardIndex {
@@ -107,7 +101,7 @@
 }
 
 .cardSignal {
-  color: rgba(185, 213, 190, 0.76);
+  color: rgba(115, 215, 255, 0.76);
   min-height: 20px;
   max-width: 23ch;
 }
@@ -119,7 +113,7 @@
   font-weight: 300;
   letter-spacing: 0;
   line-height: 0.94;
-  max-width: 9.5ch;
+  max-width: 10ch;
 }
 
 .cardRule {

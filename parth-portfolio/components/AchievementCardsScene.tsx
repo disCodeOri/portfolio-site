@@ -31,10 +31,10 @@ const cardPoses: CardPose[] = [
 ];
 
 const cardAccents: Record<string, string> = {
-  athletics: "#d8b84f",
-  technology: "#8eb893",
-  business: "#d5a95f",
-  leadership: "#e2cf83",
+  athletics: "#ff315d",
+  technology: "#2f6dff",
+  business: "#73d7ff",
+  leadership: "#f7f9ff",
 };
 
 export default function AchievementCardsScene({
@@ -54,25 +54,24 @@ export default function AchievementCardsScene({
         dpr={[1, 1.5]}
         gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
       >
-        <color attach="background" args={["#070706"]} />
-        <fog attach="fog" args={["#070706", 5.6, 9.4]} />
-        <ambientLight intensity={1.45} />
+        <color attach="background" args={["#03050a"]} />
+        <fog attach="fog" args={["#03050a", 5.6, 9.4]} />
+        <ambientLight intensity={1.25} />
         <spotLight
           angle={0.5}
-          color="#f4d46a"
-          intensity={4.2}
+          color="#f7f9ff"
+          intensity={3.8}
           penumbra={0.8}
           position={[0, 3.4, 5.4]}
         />
-        <pointLight color="#9dbd9f" intensity={1.8} position={[-3.4, -1.4, 3]} />
+        <pointLight color="#2f6dff" intensity={2.2} position={[-3.4, -1.4, 3]} />
+        <pointLight color="#ff315d" intensity={1.7} position={[3, 1.6, 2.4]} />
         <CardRig hoveredId={hoveredId} shouldReduceMotion={shouldReduceMotion}>
           {groups.map((group, index) => (
             <CardSlab
-              accent={cardAccents[group.id] ?? "#c9a84c"}
-              group={group}
+              accent={cardAccents[group.id] ?? "#2f6dff"}
               isActive={selectedId === group.id || hoveredId === group.id}
               key={group.id}
-              onHover={onHover}
               pose={cardPoses[index]}
               shouldReduceMotion={shouldReduceMotion}
             />
@@ -104,7 +103,7 @@ export default function AchievementCardsScene({
             onPointerLeave={() => onHover(null)}
             style={
               {
-                "--card-accent": cardAccents[group.id] ?? "#c9a84c",
+                "--card-accent": cardAccents[group.id] ?? "#2f6dff",
                 "--card-x": `${cardOverlayPoses[index].x}%`,
                 "--card-y": `${cardOverlayPoses[index].y}%`,
                 "--card-rotate": `${cardOverlayPoses[index].rotate}deg`,
@@ -170,16 +169,12 @@ function CardRig({
 
 function CardSlab({
   accent,
-  group,
   isActive,
-  onHover,
   pose,
   shouldReduceMotion,
 }: {
   accent: string;
-  group: AchievementGroup;
   isActive: boolean;
-  onHover: (id: string | null) => void;
   pose: CardPose;
   shouldReduceMotion: boolean;
 }) {
@@ -212,31 +207,22 @@ function CardSlab({
   });
 
   return (
-    <group
-      ref={cardRef}
-      position={pose.position}
-      rotation={pose.rotation}
-      onPointerOut={() => onHover(null)}
-      onPointerOver={(event) => {
-        event.stopPropagation();
-        onHover(group.id);
-      }}
-    >
-      <RoundedBox args={[2.08, 1.42, 0.12]} radius={0.16} smoothness={12}>
+    <group ref={cardRef} position={pose.position} rotation={pose.rotation}>
+      <RoundedBox args={[1.72, 1.16, 0.1]} radius={0.14} smoothness={12}>
         <meshPhysicalMaterial
           ref={materialRef}
-          clearcoat={0.56}
-          clearcoatRoughness={0.28}
-          color={isActive ? "#232018" : "#171711"}
+          clearcoat={0.68}
+          clearcoatRoughness={0.24}
+          color={isActive ? "#111827" : "#070b14"}
           emissive={new THREE.Color(accent)}
-          emissiveIntensity={isActive ? 0.16 : 0.06}
-          metalness={0.2}
+          emissiveIntensity={isActive ? 0.2 : 0.07}
+          metalness={0.24}
           roughness={0.52}
         />
       </RoundedBox>
       <lineSegments position={[0, 0, 0.052]}>
-        <edgesGeometry args={[new THREE.BoxGeometry(2.12, 1.46, 0.13)]} />
-        <lineBasicMaterial color={accent} transparent opacity={isActive ? 0.95 : 0.56} />
+        <edgesGeometry args={[new THREE.BoxGeometry(1.76, 1.2, 0.11)]} />
+        <lineBasicMaterial color={accent} transparent opacity={isActive ? 0.95 : 0.42} />
       </lineSegments>
     </group>
   );

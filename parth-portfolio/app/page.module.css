@@ -252,7 +252,7 @@
   color: var(--accent);
   text-transform: uppercase;
   padding: 3px 8px;
-  border: 1px solid rgba(201, 168, 76, 0.3);
+  border: 1px solid rgba(255, 49, 93, 0.36);
   border-radius: 1px;
 }
 
@@ -289,7 +289,7 @@
 }
 
 .projectStatus.live {
-  color: #7fca91;
+  color: var(--accent-cyan);
 }
 
 .projectLink {
