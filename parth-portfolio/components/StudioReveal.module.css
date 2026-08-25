@@ -1,0 +1,120 @@
+/* Component-scoped tokens (deliberately NOT on :root — they collide site-wide). */
+.wrap {
+  --sr-ink: #0b0b0b;
+  --sr-paper: #f0ece3;
+  --sr-muted: rgba(240, 236, 227, 0.55);
+  --sr-line: rgba(240, 236, 227, 0.14);
+  --sr-signal: #ff3b14;
+}
+
+.wrap section {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.intro,
+.outro {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: clamp(1.5rem, 3.5vw, 3rem);
+  background-color: var(--sr-ink);
+  color: var(--sr-paper);
+  font-family: var(--font-mono), monospace;
+}
+
+.bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding-top: 1rem;
+  border-top: 1px solid var(--sr-line);
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sr-muted);
+}
+
+.intro p,
+.outro p {
+  text-transform: uppercase;
+  font-weight: 500;
+  line-height: 1;
+  max-width: 24ch;
+}
+
+.intro p {
+  margin-top: auto;
+  color: var(--sr-paper);
+}
+
+.outro p {
+  margin-bottom: auto;
+  color: var(--sr-paper);
+}
+
+.spotlight {
+  background-color: var(--sr-ink);
+}
+
+.spotlightImg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  will-change: clip-path;
+}
+
+.spotlightImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dissolveGrid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  pointer-events: none;
+  /* Set again here so the var resolves even if the JS inline write races CSS. */
+  --dissolve-color: #ff3b14;
+}
+
+.dissolveCell {
+  position: absolute;
+  background: var(--dissolve-color, var(--sr-signal));
+  visibility: hidden;
+  font-family: var(--font-mono), monospace;
+  font-weight: 500;
+  line-height: 1;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Reduced motion: no pin, no scrub, no dissolve grid — plain stacked frames. */
+@media (prefers-reduced-motion: reduce) {
+  .spotlight {
+    height: auto;
+    overflow: visible;
+  }
+
+  .spotlightImg {
+    position: relative;
+    height: 100vh;
+    height: 100svh;
+    clip-path: none;
+  }
+}

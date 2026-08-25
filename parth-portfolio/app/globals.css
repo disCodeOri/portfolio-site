@@ -1,4 +1,6 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -6,67 +8,154 @@
 
 :root {
   --bg: #0b0b0b;
-  --surface: #141414;
-  --surface-hover: #1c1c1c;
-  --border: #2a2a2a;
-  --border-hover: #3a3a3a;
+  --surface: #121110;
+  --line: rgba(240, 236, 227, 0.14);
   --text: #f0ece3;
-  --muted: #aaa398;
-  --accent: #c9a84c;
-  --font-cormorant: Georgia, "Times New Roman", serif;
-  --font-jetbrains: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --muted: rgba(240, 236, 227, 0.55);
+  --faint: rgba(240, 236, 227, 0.32);
+  --accent: #ff3b14;
+  --accent-dim: rgba(255, 59, 20, 0.28);
+
+  /* Fluid type scale */
+  --step--1: clamp(0.6944rem, 0.67rem + 0.12vw, 0.75rem);
+  --step-0: clamp(0.8333rem, 0.8rem + 0.17vw, 0.9028rem);
+  --step-1: clamp(1rem, 0.94rem + 0.29vw, 1.125rem);
+  --step-2: clamp(1.2rem, 1.11rem + 0.45vw, 1.5rem);
+  --step-3: clamp(1.44rem, 1.28rem + 0.79vw, 2rem);
+  --step-4: clamp(1.73rem, 1.45rem + 1.39vw, 2.667rem);
+  --step-5: clamp(2.07rem, 1.61rem + 2.31vw, 3.556rem);
+  --step-6: clamp(2.49rem, 1.72rem + 3.84vw, 4.741rem);
+  --step-7: clamp(2.99rem, 1.74rem + 6.23vw, 6.321rem);
+  --step-8: clamp(3.58rem, 1.6rem + 9.93vw, 8.428rem);
+
+  --gutter: clamp(1.25rem, 4vw, 4rem);
+  --section-gap: clamp(6rem, 14vh, 11rem);
+}
+
+html {
+  scroll-behavior: initial; /* Lenis owns smoothing */
 }
 
 html,
 body {
-  /* Prefer legacy 100vh first, then modern 100svh as a fallback order so older browsers pick 100vh and modern pick 100svh */
   min-height: 100vh;
   min-height: 100svh;
-  /* Keep height fallback order consistent for cases where scripts or components rely on height */
-  height: 100vh;
-  height: 100svh;
-
-  /* Prevent horizontal overflow across devices */
-  overflow-x: hidden;
-
-  /* Allow natural vertical scrolling by default (mobile-first). Desktop will re-lock overflow if desired via media query. */
-  overflow-y: auto;
-
+  overflow-x: clip;
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-jetbrains);
-
-  -webkit-text-size-adjust: 100%; /* avoid font inflation on mobile */
+  font-family: var(--font-mono), "SFMono-Regular", Consolas, monospace;
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
 }
 
-/* On larger screens keep the app feeling app-like and limit body scroll if intended */
-@media (min-width: 901px) {
-  html,
-  body {
-    height: 100vh;
-    height: 100svh;
-    overflow: hidden; /* desktop app-like experience kept as before */
-  }
+.site-cover {
+  position: relative;
+  z-index: 1;
+  background: var(--bg);
 }
 
-/* Improve touch behavior for interactive elements */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: #0b0b0b;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 a,
 button {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
-/* Better focus outlines for accessibility */
+button {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
 :focus-visible {
-  outline: 2px solid rgba(201,168,76,0.9);
-  outline-offset: 2px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.serif {
+  font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+}
+
+.eyebrow {
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Fixed film grain, GPU-cheap (transform only) */
+.grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 9s steps(10) infinite;
+}
+
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-3%, -6%); }
+  30% { transform: translate(4%, 3%); }
+  50% { transform: translate(-4%, 6%); }
+  70% { transform: translate(6%, -2%); }
+  90% { transform: translate(-2%, 4%); }
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.5rem 0.9rem;
+  background: var(--accent);
+  color: #0b0b0b;
+  font-size: var(--step--1);
+  transform: translateY(-300%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
+  .grain {
+    animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
     scroll-behavior: auto !important;
   }
 }

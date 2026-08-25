@@ -1,0 +1,39 @@
+.wrap {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: clamp(2.5rem, 6vh, 4.5rem);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.index {
+  font-size: var(--step--1);
+  color: var(--accent);
+  letter-spacing: 0.18em;
+}
+
+.label {
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.title {
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 500;
+  font-size: var(--step-5);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}

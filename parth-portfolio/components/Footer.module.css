@@ -1,0 +1,294 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  --ft-bg: #0a0a0a;
+  --ft-text: #f0f0f0;
+  --ft-accent: #ff3b14;
+  --ft-dot: #ff1e00;
+}
+
+.revealer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  pointer-events: none;
+}
+
+.footer {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  background: var(--ft-bg);
+  color: var(--ft-text);
+  overflow: hidden;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Subtle atmospheric radial vignette */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+/* ---------------- Top 3-Column Header ---------------- */
+.topNav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: clamp(1.75rem, 3.5vw, 3rem) clamp(1.75rem, 3.5vw, 3.5rem);
+}
+
+.navCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.navColRight {
+  align-items: flex-end;
+  text-align: right;
+}
+
+.navColCenter {
+  align-items: flex-start;
+}
+
+.navLink,
+.navText {
+  font-family: var(--font-sans), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(0.75rem, 0.9vw, 0.95rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  display: inline-flex;
+  transition: color 0.25s ease;
+}
+
+.navLink:hover {
+  color: #ffffff;
+}
+
+.navEmail {
+  text-transform: lowercase;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.navDate {
+  color: rgba(255, 255, 255, 0.6);
+  cursor: default;
+  font-weight: 400;
+}
+
+/* Rolling character animation */
+.rollWrap {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  cursor: pointer;
+}
+
+.rollLetterWrap {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.rollTop,
+.rollBot {
+  display: block;
+  transition: transform 0.5s cubic-bezier(0.87, 0, 0.13, 1), color 0.25s ease;
+  transition-delay: calc(var(--char-i, 0) * 20ms);
+}
+
+.rollBot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(100%);
+  color: var(--ft-accent);
+}
+
+.rollWrap:hover .rollTop {
+  transform: translateY(-100%);
+}
+
+.rollWrap:hover .rollBot {
+  transform: translateY(0);
+}
+
+/* ---------------- ASCII Art Hands ---------------- */
+.asciiWrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.asciiCol {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  will-change: transform;
+}
+
+.asciiLeft {
+  justify-content: flex-start;
+  padding-left: clamp(0rem, 2vw, 3rem);
+}
+
+.asciiRight {
+  justify-content: flex-end;
+  padding-right: clamp(0rem, 2vw, 3rem);
+}
+
+.asciiPre {
+  font-family: "Courier New", "SFMono-Regular", Consolas, monospace;
+  font-size: clamp(0.32rem, 0.48vw, 0.65rem);
+  line-height: 1.08;
+  letter-spacing: 0.48em;
+  color: var(--ft-accent);
+  white-space: pre;
+  user-select: none;
+  opacity: 0.85;
+  pointer-events: auto;
+  cursor: default;
+  transition: opacity 0.3s ease;
+  will-change: transform;
+}
+
+.asciiPre:hover {
+  opacity: 1;
+}
+
+/* Active glitched / inverted hover character */
+.activeCell {
+  color: #0a0a0a !important;
+  background: var(--ft-accent) !important;
+  font-weight: 700;
+}
+
+/* ---------------- Bottom Hero Typography ---------------- */
+.brandName {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 clamp(1rem, 2vw, 2.5rem);
+  padding-bottom: clamp(0.5rem, 1vw, 1.5rem);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.brandFirst {
+  font-family: var(--font-sans), "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(4rem, 17vw, 19rem);
+  font-weight: 300;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  color: #f0f0f0;
+  display: inline-block;
+  pointer-events: auto;
+}
+
+.brandLastWrap {
+  display: inline-flex;
+  align-items: baseline;
+  pointer-events: auto;
+}
+
+.brandLast {
+  font-family: var(--font-serif-italic), var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(4rem, 17vw, 19rem);
+  font-weight: 400;
+  line-height: 0.82;
+  letter-spacing: -0.04em;
+  color: #f0f0f0;
+  display: inline-block;
+}
+
+.brandDot {
+  font-family: var(--font-serif-italic), var(--font-serif), Georgia, serif;
+  font-style: normal;
+  font-size: clamp(4rem, 17vw, 19rem);
+  line-height: 0.82;
+  color: var(--ft-dot);
+  display: inline-block;
+  transform: translateY(-0.02em);
+}
+
+/* ---------------- Responsive Tweaks ---------------- */
+@media (max-width: 900px) {
+  .topNav {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+
+  .navColCenter {
+    display: none;
+  }
+
+  .asciiPre {
+    font-size: clamp(0.28rem, 0.6vw, 0.45rem);
+    letter-spacing: 0.4em;
+    line-height: 1.05;
+  }
+
+  .brandFirst,
+  .brandLast,
+  .brandDot {
+    font-size: clamp(3rem, 15vw, 6.5rem);
+    line-height: 0.9;
+  }
+}
+
+@media (max-width: 600px) {
+  .topNav {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .navColRight {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .asciiWrap {
+    opacity: 0.65;
+  }
+
+  .brandName {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    padding-bottom: 1rem;
+  }
+}

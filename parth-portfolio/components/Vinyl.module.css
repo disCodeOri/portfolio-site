@@ -1,145 +1,59 @@
-.vinylSection {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.wrap {
+  display: grid;
+  gap: 0.9rem;
 }
 
-.vinylLabel {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: var(--muted);
+.label {
+  font-size: var(--step--1);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  font-family: var(--font-jetbrains), monospace;
+  color: var(--faint);
 }
 
-.vinylRow {
+.row {
   display: flex;
   align-items: center;
-  gap: 14px;
-  min-width: 0;
+  gap: 1.25rem;
 }
 
-.vinylOuter {
+.disk {
   position: relative;
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-  min-width: 0;
-}
-
-.vinylDisk {
-  width: 80px;
-  height: 80px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   background:
-    radial-gradient(circle at 50% 50%, transparent 0%, transparent 17%, rgba(255,255,255,0.015) 17.5%, transparent 18%),
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      #111 0px, #111 1px,
-      #1d1d1d 1px, #1d1d1d 2.5px,
-      #151515 2.5px, #151515 3.5px,
-      #1a1a1a 3.5px, #1a1a1a 5px
-    );
-  animation: spin 5s linear infinite;
-  position: relative;
+    radial-gradient(circle at 50% 50%, transparent 0 18%, rgba(240, 236, 227, 0.05) 19%, transparent 20%),
+    radial-gradient(circle at 50% 50%, transparent 0 30%, rgba(240, 236, 227, 0.05) 31%, transparent 32%),
+    radial-gradient(circle at 50% 50%, transparent 0 42%, rgba(240, 236, 227, 0.05) 43%, transparent 44%),
+    radial-gradient(circle at 35% 30%, #2a2a2a, #101010 70%);
+  border: 1px solid var(--line);
+  will-change: transform;
 }
 
-.vinylCenter {
+.center {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  inset: 50% auto auto 50%;
+  width: 22px;
+  height: 22px;
   transform: translate(-50%, -50%);
-  width: 26px;
-  height: 26px;
   border-radius: 50%;
-  background: conic-gradient(from 0deg, #2a1f0e, #3d2e12, #c9a84c, #3d2e12, #2a1f0e, #c9a84c, #2a1f0e);
-  border: 1px solid rgba(201, 168, 76, 0.4);
+  background: radial-gradient(circle, var(--accent) 0 38%, #0b0b0b 40%);
 }
 
-.vinylCenter::after {
-  content: "";
-  display: block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #0b0b0b;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.meta {
+  display: grid;
+  gap: 0.2rem;
 }
 
-.needle {
-  position: absolute;
-  top: -6px;
-  right: -14px;
-  width: 40px;
-  height: 44px;
-  transform-origin: 85% 12%;
-  transform: rotate(24deg);
-  pointer-events: none;
-}
-
-.songMeta {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  min-width: 0;
-}
-
-.songTitle {
-  font-family: var(--font-cormorant), serif;
-  font-size: 14px;
+.title {
+  font-family: var(--font-serif), Georgia, serif;
   font-style: italic;
-  color: var(--text);
-  line-height: 1.2;
+  font-size: var(--step-1);
 }
 
-.songArtist {
-  font-size: 9px;
-  letter-spacing: 0.12em;
-  color: var(--muted);
+.artist {
+  font-size: var(--step--1);
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  font-family: var(--font-jetbrains), monospace;
-}
-
-/* Reduce vinyl size on small screens and adjust needle */
-@media (max-width: 420px) {
-  .vinylOuter {
-    width: 64px;
-    height: 64px;
-  }
-  .vinylDisk {
-    width: 64px;
-    height: 64px;
-  }
-  .vinylCenter {
-    width: 20px;
-    height: 20px;
-  }
-  .needle {
-    top: -4px;
-    right: -10px;
-    width: 32px;
-    height: 36px;
-    transform-origin: 85% 14%;
-    transform: rotate(22deg);
-  }
-  .vinylRow {
-    gap: 10px;
-  }
-  .songTitle {
-    font-size: 13px;
-  }
-}
-
-/* Disable spinning for users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .vinylDisk {
-    animation: none !important;
-  }
-}
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  color: var(--muted);
 }

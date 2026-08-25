@@ -1,0 +1,21 @@
+{
+  "mcpServers": {
+    "agent-browser": {
+      "type": "stdio",
+      "command": "C:\\Windows\\System32\\cmd.exe",
+      "args": [
+        "/d",
+        "/s",
+        "/c",
+        "agent-browser mcp --tools core,network,debug,mobile"
+      ]
+    },
+    "spector": {
+      "type": "stdio",
+      "command": "C:\\Users\\singh\\AppData\\Local\\hermes\\node\\node.exe",
+      "args": [
+        "C:\\Users\\singh\\OneDrive\\Desktop\\portfolio-site\\.omp\\tools\\spectorjs\\mcp\\dist\\index.js"
+      ]
+    }
+  }
+}
