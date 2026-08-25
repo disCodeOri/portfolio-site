@@ -1,0 +1,9 @@
+{
+  "git.ignoredRepositories": [
+    ".omp/tools/spectorjs"
+  ],
+  "git.repositoryScanIgnoredFolders": [
+    "node_modules",
+    ".omp"
+  ]
+}
