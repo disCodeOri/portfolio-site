@@ -89,8 +89,8 @@ export default function Hero() {
               <span className={styles.portraitDot} />
             </div>
             <div className={styles.portraitMeta}>
-              <span className={styles.portraitStatus}>HYD · 2026</span>
-              <span className={styles.portraitLabel}>ACTIVE SEASON</span>
+              <span className={styles.portraitStatus}>LBLR · 2026</span>
+              <span className={styles.portraitLabel}>OFF SEASON</span>
             </div>
           </div>
 

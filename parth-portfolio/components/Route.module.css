@@ -19,12 +19,10 @@
 
 .spotlight {
   position: relative;
-  isolation: isolate; /* keeps the z-index:-1 ribbon inside this section */
   display: flex;
   flex-direction: column;
   gap: clamp(6rem, 14vh, 10rem);
   padding-bottom: clamp(6rem, 14vh, 10rem);
-  overflow: hidden;
 }
 
 .row {
@@ -212,8 +210,8 @@
   top: 25svh;
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
-  height: 100%;
+  width: 100vw;
+  height: 340%;
   z-index: -1;
   pointer-events: none;
 }

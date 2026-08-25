@@ -115,9 +115,18 @@ export default function Route() {
           ease: "none",
           scrollTrigger: {
             trigger: spotlight,
-            start: "top top",
-            end: "bottom bottom",
+            start: "top 20%",
+            end: () => {
+              const workEl = document.getElementById("work");
+              if (workEl) {
+                const workBottom = workEl.getBoundingClientRect().bottom + window.scrollY;
+                const spotTop = spotlight.getBoundingClientRect().top + window.scrollY;
+                return `+=${workBottom - spotTop - window.innerHeight * 0.4}`;
+              }
+              return "bottom -180%";
+            },
             scrub: true,
+            invalidateOnRefresh: true,
           },
         });
       });
@@ -235,16 +244,15 @@ export default function Route() {
 
         <div className={styles.svgPath} aria-hidden="true">
           <svg
-            viewBox="0 0 1378 2760"
+            viewBox="0 0 1378 7400"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             preserveAspectRatio="xMidYMin meet"
           >
             <path
               ref={pathRef}
-              d="M639.668 100C639.668 100 105.669 100 199.669 601.503C293.669 1103.01 1277.17 691.502 1277.17 1399.5C1277.17 2107.5 -155.332 1968 140.168 1438.5C435.669 909.002 1442.66 2093.5 713.168 2659.5"
+              d="M639.668 100C639.668 100 105.669 100 199.669 601.503C293.669 1103.01 1277.17 691.502 1277.17 1399.5C1277.17 2107.5 -155.332 1968 140.168 1438.5C435.669 909.002 1442.66 2000 713.168 2500C250 2850 140 3150 280 3650C420 4150 1150 4350 850 4950C600 5450 200 5650 550 6250C750 6600 200 6800 -400 6900"
               stroke="#ff3b14"
-              strokeOpacity="0.22"
               strokeWidth="200"
               strokeLinecap="round"
             />

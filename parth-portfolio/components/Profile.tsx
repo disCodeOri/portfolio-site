@@ -23,7 +23,7 @@ export default function Profile() {
       mm.add("(prefers-reduced-motion: no-preference)", () => {
         gsap.fromTo(
           words,
-          { opacity: 0.14 },
+          { opacity: 0.45 },
           {
             opacity: 1,
             stagger: 0.06,

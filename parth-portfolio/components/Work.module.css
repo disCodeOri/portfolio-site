@@ -1,4 +1,6 @@
 .section {
+  position: relative;
+  z-index: 1;
   padding: var(--section-gap) var(--gutter);
   max-width: 76rem;
   margin: 0 auto;
@@ -6,6 +8,7 @@
 
 .stage {
   position: relative;
+  z-index: 1;
 }
 
 .list {
@@ -33,11 +36,14 @@
 }
 
 .name {
+  position: relative;
+  z-index: 2;
   font-size: var(--step-5);
   font-weight: 500;
   line-height: 1.02;
   letter-spacing: -0.01em;
   color: var(--muted);
+  text-shadow: 0 2px 14px rgba(11, 11, 11, 0.95), 0 1px 4px rgba(11, 11, 11, 0.85);
   transition: color 0.35s ease, transform 0.35s ease;
 }
 
