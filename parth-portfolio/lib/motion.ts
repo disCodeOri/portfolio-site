@@ -31,5 +31,6 @@ export function prefersReducedMotion(): boolean {
 declare global {
   interface Window {
     __lenis?: Lenis | undefined;
+    __replayStartupIntro?: () => void;
   }
 }

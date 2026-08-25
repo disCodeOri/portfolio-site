@@ -6,26 +6,7 @@
   padding: calc(3.5rem + 2vh) var(--gutter) 2.25rem;
 }
 
-.route {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
 
-.telemetryNodes text {
-  font-family: var(--font-mono), monospace;
-  font-size: 11px;
-  font-weight: 500;
-  text-transform: uppercase;
-}
-
-@media (max-width: 900px) {
-  .telemetryNodes {
-    display: none;
-  }
-}
 
 .hero > div[data-hero-content] {
   position: relative;
@@ -185,22 +166,31 @@
 
 .nameFirst {
   display: inline-block;
+  font-family: var(--font-sans), sans-serif;
   font-size: var(--step-8);
-  font-style: italic;
-  font-weight: 500;
-  letter-spacing: -0.01em;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: var(--text);
   will-change: transform;
 }
 
 .nameLast {
   display: inline-block;
   justify-self: end;
+  font-family: var(--font-serif-italic), Georgia, serif;
   font-size: var(--step-8);
   font-style: italic;
-  font-weight: 500;
+  font-weight: 400;
   color: var(--accent);
   letter-spacing: -0.01em;
   will-change: transform;
+}
+
+.accentDot {
+  font-style: normal;
+  color: #ff1e00;
+  margin-left: 2px;
 }
 
 .bottomBar {

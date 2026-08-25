@@ -1,0 +1,66 @@
+.introOverlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100svh;
+  background: #0b0b0b;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.microWrap {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.microMask {
+  overflow: hidden;
+  padding: 0.5rem 1rem;
+}
+
+.microText {
+  font-size: clamp(1.5rem, 4vw, 2.75rem);
+  letter-spacing: -0.01em;
+  color: var(--text);
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.nameFirst {
+  font-family: var(--font-sans), sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.nameLast {
+  font-family: var(--font-serif-italic), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.dot {
+  color: var(--accent);
+  font-style: normal;
+  display: inline-block;
+  margin-left: 1px;
+}
+
+.curtain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  z-index: 20;
+  pointer-events: none;
+  transform: scaleY(0);
+  will-change: transform;
+}

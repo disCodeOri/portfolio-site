@@ -7,10 +7,12 @@ import Profile from "@/components/Profile";
 import Proof from "@/components/Proof";
 import StudioReveal from "@/components/StudioReveal";
 import Contact from "@/components/Footer";
+import StartupIntro from "@/components/StartupIntro";
 
 export default function Home() {
   return (
     <>
+      <StartupIntro />
       <a className="skip-link" href="#profile">
         Skip to profile
       </a>
