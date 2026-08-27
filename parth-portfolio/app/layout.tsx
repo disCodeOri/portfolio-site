@@ -80,6 +80,11 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
+  verification: {
+    other: {
+      "glitchx-verification": "cmtbgpcyz0003l104kt3onnp3",
+    },
+  },
 };
 
 export const viewport: Viewport = {
