@@ -1,4 +1,5 @@
 import type Lenis from "lenis";
+import type gsap from "gsap";
 
 /**
  * Shared motion vocabulary for the whole site.
@@ -32,5 +33,6 @@ declare global {
   interface Window {
     __lenis?: Lenis | undefined;
     __replayStartupIntro?: () => void;
+    __introTimeline?: gsap.core.Timeline;
   }
 }

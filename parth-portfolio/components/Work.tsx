@@ -43,7 +43,7 @@ export default function Work() {
         }
       });
       // Cursor-following preview card — pointer devices with room, only.
-      mm.add("(hover: hover) and (min-width: 901px)", () => {
+      mm.add("(hover: hover) and (min-width: 901px) and (prefers-reduced-motion: no-preference)", () => {
         const preview = previewRef.current;
         if (!preview || !listRef.current) return;
 
@@ -69,6 +69,8 @@ export default function Work() {
           list.removeEventListener("mousemove", move);
           list.removeEventListener("mouseenter", enter);
           list.removeEventListener("mouseleave", leave);
+          gsap.killTweensOf(preview);
+          gsap.set(preview, { clearProps: "opacity,visibility,transform" });
         };
       });
     },
@@ -78,10 +80,12 @@ export default function Work() {
   const toggleOpen = (id: string) => {
     const next = openId === id ? null : id;
     const closing = openId;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setOpenId(next);
 
     const animate = (el: HTMLDivElement, open: boolean) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.killTweensOf(el, "height");
+      if (reducedMotion) {
         el.style.height = open ? "auto" : "0px";
         return;
       }
@@ -95,6 +99,7 @@ export default function Work() {
             ease: EASE.inOut,
             onComplete: () => {
               el.style.height = "auto";
+              ScrollTrigger.refresh();
             },
           }
         );
@@ -102,7 +107,12 @@ export default function Work() {
         gsap.fromTo(
           el,
           { height: el.scrollHeight },
-          { height: 0, duration: DUR.base, ease: EASE.inOut }
+          {
+            height: 0,
+            duration: DUR.base,
+            ease: EASE.inOut,
+            onComplete: next ? undefined : () => ScrollTrigger.refresh(),
+          }
         );
       }
     };
@@ -115,6 +125,7 @@ export default function Work() {
       const panel = panelRefs.current[next];
       if (panel) animate(panel, true);
     }
+    if (reducedMotion) ScrollTrigger.refresh();
   };
 
   return (
@@ -169,6 +180,8 @@ export default function Work() {
                         src={project.image}
                         alt={project.name}
                         className={styles.panelImg}
+                        loading="lazy"
+                        decoding="async"
                       />
                       <span className={`${styles.corner} ${styles.tl}`} />
                       <span className={`${styles.corner} ${styles.tr}`} />
@@ -212,6 +225,8 @@ export default function Work() {
                 src={project.image}
                 alt={project.name}
                 className={styles.previewImg}
+                loading="lazy"
+                decoding="async"
               />
               <div className={styles.previewOverlay} />
               <span className={`${styles.corner} ${styles.tl}`} />

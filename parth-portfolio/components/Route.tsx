@@ -153,7 +153,7 @@ export default function Route() {
           <figure className={styles.stageFrameWide}>
             <div className={styles.stageVisual}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={STAGES[0].image} alt={STAGES[0].label} className={styles.stageImg} />
+              <img src={STAGES[0].image} alt={STAGES[0].label} className={styles.stageImg} loading="lazy" decoding="async" />
               <div className={styles.stageOverlay} />
               <span className={`${styles.corner} ${styles.tl}`} />
               <span className={`${styles.corner} ${styles.tr}`} />
@@ -184,7 +184,7 @@ export default function Route() {
             <figure className={styles.stageFrame}>
               <div className={styles.stageVisual}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={STAGES[1].image} alt={STAGES[1].label} className={styles.stageImg} />
+                <img src={STAGES[1].image} alt={STAGES[1].label} className={styles.stageImg} loading="lazy" decoding="async" />
                 <div className={styles.stageOverlay} />
                 <span className={`${styles.corner} ${styles.tl}`} />
                 <span className={`${styles.corner} ${styles.tr}`} />
@@ -201,7 +201,7 @@ export default function Route() {
             <figure className={styles.stageFrame}>
               <div className={styles.stageVisual}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={STAGES[2].image} alt={STAGES[2].label} className={styles.stageImg} />
+                <img src={STAGES[2].image} alt={STAGES[2].label} className={styles.stageImg} loading="lazy" decoding="async" />
                 <div className={styles.stageOverlay} />
                 <span className={`${styles.corner} ${styles.tl}`} />
                 <span className={`${styles.corner} ${styles.tr}`} />
@@ -225,7 +225,7 @@ export default function Route() {
           <figure className={styles.stageFrameWide}>
             <div className={styles.stageVisual}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={STAGES[3].image} alt={STAGES[3].label} className={styles.stageImg} />
+              <img src={STAGES[3].image} alt={STAGES[3].label} className={styles.stageImg} loading="lazy" decoding="async" />
               <div className={styles.stageOverlay} />
               <span className={`${styles.corner} ${styles.tl}`} />
               <span className={`${styles.corner} ${styles.tr}`} />

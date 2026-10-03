@@ -105,6 +105,7 @@ function setupHover(preEl: HTMLPreElement, poolGrid: number[][]) {
 
   let animating = false;
   let rafId: number | null = null;
+  let lastDraw = 0;
 
   function initGrid() {
     origLines = preEl.textContent ? preEl.textContent.split("\n") : [];
@@ -147,8 +148,13 @@ function setupHover(preEl: HTMLPreElement, poolGrid: number[][]) {
     myC = -1000;
   };
 
-  function tick() {
-    const now = performance.now();
+  function tick(now = performance.now()) {
+    rafId = null;
+    if (now - lastDraw < 1000 / 30 - 1) {
+      rafId = requestAnimationFrame(tick);
+      return;
+    }
+    lastDraw = now;
     let anyActive = false;
     let html = "";
 
@@ -194,6 +200,7 @@ function setupHover(preEl: HTMLPreElement, poolGrid: number[][]) {
     preEl.removeEventListener("mousemove", onMouseMove);
     preEl.removeEventListener("mouseleave", onMouseLeave);
     if (rafId !== null) cancelAnimationFrame(rafId);
+    if (origLines) preEl.textContent = origLines.join("\n");
   };
 }
 
@@ -269,9 +276,22 @@ export default function Contact() {
 
       if (!rootEl || !revealer || !footer) return;
 
-      const cleanups: (() => void)[] = [];
+      let hoverCleanups: (() => void)[] = [];
+      const hands: { pre: HTMLPreElement; poolGrid: number[][] }[] = [];
+      const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      const pointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+      let visible = false;
+      let loaded = false;
       let parallaxFrame: number | null = null;
       let disposed = false;
+
+      const updateHover = () => {
+        hoverCleanups.forEach((cleanup) => cleanup());
+        hoverCleanups = [];
+        if (visible && !document.hidden && !motionQuery.matches && pointerQuery.matches) {
+          hoverCleanups = hands.map(({ pre, poolGrid }) => setupHover(pre, poolGrid));
+        }
+      };
 
       const loadHand = (src: string, pre: HTMLPreElement) => {
         const img = new Image();
@@ -280,46 +300,60 @@ export default function Contact() {
           if (disposed) return;
           const result = imageToAscii(img, 80);
           pre.textContent = result.text;
-          const cleanupHover = setupHover(pre, result.poolGrid);
-          cleanups.push(cleanupHover);
+          hands.push({ pre, poolGrid: result.poolGrid });
+          updateHover();
         };
         img.src = src;
       };
 
-      if (leftPre) loadHand("/hands/hand-left.png", leftPre);
-      if (rightPre) loadHand("/hands/hand-right.png", rightPre);
+      const loadHands = () => {
+        if (loaded) return;
+        loaded = true;
+        if (leftPre) loadHand("/hands/hand-left.png", leftPre);
+        if (rightPre) loadHand("/hands/hand-right.png", rightPre);
+      };
+      const preloadObserver = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          loadHands();
+          preloadObserver.disconnect();
+        }
+      }, { rootMargin: "800px" });
+      preloadObserver.observe(revealer);
 
-      if (leftWrap && rightWrap) {
-        gsap.fromTo(
-          leftWrap,
-          { xPercent: -100 },
-          {
-            xPercent: 0,
-            ease: "none",
-            scrollTrigger: {
-              trigger: revealer,
-              start: "top 80%",
-              end: "bottom bottom",
-              scrub: true,
-            },
-          }
-        );
+      const mm = gsap.matchMedia();
+      mm.add("(prefers-reduced-motion: no-preference)", () => {
+        if (leftWrap && rightWrap) {
+          gsap.fromTo(
+            leftWrap,
+            { xPercent: -100 },
+            {
+              xPercent: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: revealer,
+                start: "top 80%",
+                end: "bottom bottom",
+                scrub: true,
+              },
+            }
+          );
 
-        gsap.fromTo(
-          rightWrap,
-          { xPercent: 100 },
-          {
-            xPercent: 0,
-            ease: "none",
-            scrollTrigger: {
-              trigger: revealer,
-              start: "top 80%",
-              end: "bottom bottom",
-              scrub: true,
-            },
-          }
-        );
-      }
+          gsap.fromTo(
+            rightWrap,
+            { xPercent: 100 },
+            {
+              xPercent: 0,
+              ease: "none",
+              scrollTrigger: {
+                trigger: revealer,
+                start: "top 80%",
+                end: "bottom bottom",
+                scrub: true,
+              },
+            }
+          );
+        }
+      });
 
       let mx = 0;
       let my = 0;
@@ -327,14 +361,22 @@ export default function Contact() {
       let sy = 0;
 
       const onPointerMove = (e: MouseEvent) => {
+        if (!visible || document.hidden || motionQuery.matches || !pointerQuery.matches) return;
         mx = (e.clientX / window.innerWidth - 0.5) * 2;
         my = (e.clientY / window.innerHeight - 0.5) * 2;
+        if (parallaxFrame === null) parallaxFrame = requestAnimationFrame(parallaxTick);
       };
 
-      const parallaxTick = () => {
-        if (disposed) return;
-        sx += (mx - sx) * 0.05;
-        sy += (my - sy) * 0.05;
+      let lastParallax = 0;
+      const parallaxTick = (now: number) => {
+        parallaxFrame = null;
+        if (disposed || !visible || document.hidden || motionQuery.matches || !pointerQuery.matches) return;
+        // Keep easing consistent on displays with different refresh rates.
+        const delta = Math.min(64, lastParallax ? now - lastParallax : 16.7);
+        lastParallax = now;
+        const ease = 1 - Math.pow(0.95, delta / 16.7);
+        sx += (mx - sx) * ease;
+        sy += (my - sy) * ease;
 
         const lx = Math.min(0, sx * -15 - 15);
         const rx = Math.max(0, sx * 15 + 15);
@@ -343,24 +385,54 @@ export default function Contact() {
         if (leftPre) leftPre.style.transform = `translate(${lx}px, ${py}px)`;
         if (rightPre) rightPre.style.transform = `translate(${rx}px, ${py}px)`;
 
-        parallaxFrame = requestAnimationFrame(parallaxTick);
+        if (Math.abs(mx - sx) > 0.001 || Math.abs(my - sy) > 0.001) {
+          parallaxFrame = requestAnimationFrame(parallaxTick);
+        } else {
+          lastParallax = 0;
+        }
       };
 
-      window.addEventListener("mousemove", onPointerMove);
-      parallaxFrame = requestAnimationFrame(parallaxTick);
+      const syncInteraction = () => {
+        updateHover();
+        if (parallaxFrame !== null) cancelAnimationFrame(parallaxFrame);
+        parallaxFrame = null;
+        lastParallax = 0;
+        if (visible && !document.hidden && !motionQuery.matches && pointerQuery.matches) {
+          parallaxFrame = requestAnimationFrame(parallaxTick);
+        } else if (motionQuery.matches || !pointerQuery.matches) {
+          if (leftPre) leftPre.style.transform = "";
+          if (rightPre) rightPre.style.transform = "";
+        }
+      };
+      // The footer is fixed behind the page, so observe its in-flow revealer.
+      const observer = new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        syncInteraction();
+      });
+      observer.observe(revealer);
+      footer.addEventListener("mousemove", onPointerMove, { passive: true });
+      motionQuery.addEventListener("change", syncInteraction);
+      pointerQuery.addEventListener("change", syncInteraction);
+      document.addEventListener("visibilitychange", syncInteraction);
 
       return () => {
         disposed = true;
-        window.removeEventListener("mousemove", onPointerMove);
+        observer.disconnect();
+        preloadObserver.disconnect();
+        mm.revert();
+        footer.removeEventListener("mousemove", onPointerMove);
+        motionQuery.removeEventListener("change", syncInteraction);
+        pointerQuery.removeEventListener("change", syncInteraction);
+        document.removeEventListener("visibilitychange", syncInteraction);
         if (parallaxFrame !== null) cancelAnimationFrame(parallaxFrame);
-        cleanups.forEach((c) => c());
+        hoverCleanups.forEach((cleanup) => cleanup());
       };
     },
     { scope: root }
   );
 
   return (
-    <div ref={root} className={styles.wrap}>
+    <div ref={root} id="contact" className={styles.wrap}>
       <div ref={revealerRef} className={styles.revealer} aria-hidden="true" />
 
       <footer ref={footerRef} className={styles.footer} aria-label="Contact">

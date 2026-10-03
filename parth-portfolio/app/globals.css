@@ -109,12 +109,12 @@ button {
   color: var(--muted);
 }
 
-/* Fixed film grain, GPU-cheap (transform only) */
+/* Keep enough overscan for the shifts without a four-viewport-sized layer. */
 .grain {
   position: fixed;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
   pointer-events: none;
   z-index: 60;
   opacity: 0.05;

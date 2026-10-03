@@ -91,6 +91,8 @@ export default function Profile() {
                 src="/placeholders/profile-portrait.jpg"
                 alt="Parth Sankhla training"
                 className={styles.photoImg}
+                loading="lazy"
+                decoding="async"
               />
               <span className={`${styles.corner} ${styles.tl}`} />
               <span className={`${styles.corner} ${styles.tr}`} />

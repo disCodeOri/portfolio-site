@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { prefersReducedMotion } from "@/lib/motion";
@@ -21,9 +21,9 @@ export default function StartupIntro({ onComplete }: StartupIntroProps) {
 
   useEffect(() => {
     // Lock scroll during startup sequence
-    document.body.style.overflow = "hidden";
-    if (window.__lenis) {
-      window.__lenis.stop();
+    if (!prefersReducedMotion()) {
+      document.body.style.overflow = "hidden";
+      window.__lenis?.stop();
     }
 
     // Expose replay function for debugging / interactive triggering
@@ -50,6 +50,7 @@ export default function StartupIntro({ onComplete }: StartupIntroProps) {
         window.__lenis.start();
       }
       delete window.__replayStartupIntro;
+      delete window.__introTimeline;
     };
   }, []);
 
@@ -79,7 +80,7 @@ export default function StartupIntro({ onComplete }: StartupIntroProps) {
         },
       });
       timelineRef.current = tl;
-      (window as any).__introTimeline = tl;
+      window.__introTimeline = tl;
 
       // 1. Initial State
       tl.set(root.current, { autoAlpha: 1, display: "grid" }, 0);

@@ -35,10 +35,12 @@ export default function Proof() {
   const toggle = (id: string) => {
     const next = openId === id ? null : id;
     const closing = openId;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     setOpenId(next);
 
     const animate = (el: HTMLElement, open: boolean) => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.killTweensOf(el, "height");
+      if (reducedMotion) {
         el.style.height = open ? "auto" : "0px";
         return;
       }
@@ -52,6 +54,7 @@ export default function Proof() {
             ease: EASE.inOut,
             onComplete: () => {
               el.style.height = "auto";
+              ScrollTrigger.refresh();
             },
           }
         );
@@ -59,7 +62,12 @@ export default function Proof() {
         gsap.fromTo(
           el,
           { height: el.scrollHeight },
-          { height: 0, duration: DUR.base * 0.9, ease: EASE.inOut }
+          {
+            height: 0,
+            duration: DUR.base * 0.9,
+            ease: EASE.inOut,
+            onComplete: next ? undefined : () => ScrollTrigger.refresh(),
+          }
         );
       }
     };
@@ -73,6 +81,7 @@ export default function Proof() {
       if (rowId === closing && rowId !== next) animate(row, false);
       if (rowId === next) animate(row, true);
     }
+    if (reducedMotion) ScrollTrigger.refresh();
   };
 
   return (
@@ -122,6 +131,8 @@ export default function Proof() {
                           src={group.image}
                           alt={group.title}
                           className={styles.visualImg}
+                          loading="lazy"
+                          decoding="async"
                         />
                         <span className={`${styles.corner} ${styles.tl}`} />
                         <span className={`${styles.corner} ${styles.tr}`} />

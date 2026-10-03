@@ -14,13 +14,27 @@ export default function Vinyl() {
     () => {
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.to(`.${styles.disk}`, {
+        const rotation = gsap.to(`.${styles.disk}`, {
           rotation: 360,
           duration: 6,
           ease: "none",
           repeat: -1,
+          paused: true,
         });
+        let visible = false;
+        const syncRotation = () => rotation.paused(!visible || document.hidden);
+        const observer = new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+          syncRotation();
+        });
+        if (root.current) observer.observe(root.current);
+        document.addEventListener("visibilitychange", syncRotation);
+        return () => {
+          observer.disconnect();
+          document.removeEventListener("visibilitychange", syncRotation);
+        };
       });
+      return () => mm.revert();
     },
     { scope: root, dependencies: [] }
   );

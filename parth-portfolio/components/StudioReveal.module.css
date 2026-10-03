@@ -67,8 +67,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  will-change: clip-path;
+  clip-path: inset(0);
 }
 
 .spotlightImg img {
@@ -86,22 +85,7 @@
   height: 100%;
   z-index: 100;
   pointer-events: none;
-  /* Set again here so the var resolves even if the JS inline write races CSS. */
-  --dissolve-color: #ff3b14;
-}
-
-.dissolveCell {
-  position: absolute;
-  background: var(--dissolve-color, var(--sr-signal));
-  visibility: hidden;
   font-family: var(--font-mono), monospace;
-  font-weight: 500;
-  line-height: 1;
-  color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
 }
 
 /* Reduced motion: no pin, no scrub, no dissolve grid — plain stacked frames. */

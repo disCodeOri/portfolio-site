@@ -151,7 +151,6 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  will-change: transform;
 }
 
 .asciiLeft {
@@ -176,7 +175,6 @@
   pointer-events: auto;
   cursor: default;
   transition: opacity 0.3s ease;
-  will-change: transform;
 }
 
 .asciiPre:hover {
